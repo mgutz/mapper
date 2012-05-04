@@ -1,0 +1,29 @@
+{
+  "name": "mapper",
+  "version": "0.1.5",
+  "description": "Light ORM top of mysql-libmysqlclient. Ported from FastLegS",
+  "tags" : ["orm", "mysql", "mysql-libmysqlclient"],
+  "contributors": [
+    { "name": "Mario Gutierrez", "email": "mario@mgutz.com"}
+  ],
+  "author": {
+    "name": "Didit Tech <development@didit.com>"
+  },
+  "homepage": "https://github.com/didit-tech/FastLegS",
+  "dependencies": {
+    "async": "0.1.18",
+    "mysql-libmysqlclient": "*",
+    "lodash": "~0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.0.1",
+    "chai": "~0.5.3"
+  },
+  "main": "index",
+  "scripts": { "test": "make test" },
+  "engines": { "node": "~0.6" },
+  "licenses" : [{
+      "type" : "MIT"
+    , "url" : "http://github.com/didit-tech/FastLegS/raw/master/LICENSE"
+  }]
+}
