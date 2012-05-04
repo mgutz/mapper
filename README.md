@@ -35,9 +35,9 @@ node-mysql
 
 A simple practice without over-engineering is to main 3 distinct layers in your code:
 
-1) Data Access Objects (DAO) - 1 to 1 mapping to database tables.
-2) Models - Aggregate one or more DAO and add business logic.
-3) Resources or services - Use models never DAO.
+1. Data Access Objects (DAO) - 1 to 1 mapping to database tables.
+2. Models - Aggregate one or more DAO and add business logic.
+3. Resources or services - Use models never DAO.
 
 
 ## Quickstart
