@@ -22,7 +22,7 @@ module.exports = {
   'integrates': function(done) {
     var config = require(__dirname + '/../../.mapper.json');
 
-    Mapper.connect(config, {verbose: true});
+    Mapper.connect(config/*, {verbose: true}*/);
 
     var posts = [
       { id: 1, title: 'Some Title 1', blurb: 'Some blurb 1',

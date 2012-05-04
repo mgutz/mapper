@@ -9,7 +9,7 @@
   "author": {
     "name": "Mario Gutierrez", "email": "mario@mgutz.com"
   },
-  "homepage": "https://github.com/mgutz/mappe",
+  "homepage": "https://github.com/mgutz/mapper",
 
   "dependencies": {
     "async": "~0.1.18",

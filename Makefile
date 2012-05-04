@@ -9,7 +9,7 @@ test-unit:
 	@mocha -u exports -R spec test/unit/statements_test.js
 
 test-integration:
-	@mocha -u exports -R spec test/integration/integration_test.js
+	@mocha -u exports -R spec test/integration/*test.js
 
 bench: setup
 	time node test/bench/testMapper.js
