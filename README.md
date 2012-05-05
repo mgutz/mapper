@@ -2,8 +2,8 @@
 
 Fast MySQL ORM on top of the awesome `mysql-libmysqlclient` driver.
 
-The goal is to have a blazing fast ORM like [dapper-dot-net](http://code.google.com/p/dapper-dot-net/)
-for node. Mapper is faster than JAVA ORMs like JDBI (dropwizard). Much faster than any SQL-based ORM
+The goal is to have a speedy ORM for node like that used by StackOverflow, [dapper-dot-net](http://code.google.com/p/dapper-dot-net/) .
+My internal benchmarks show Mapper is faster than JAVA ORMs like JDBI (dropwizard) and faster than other SQL-based ORMs
 for node. No bloat.
 
 Based off original code by [didit-tech](https://github.com/didit-tech/FastLegS).
@@ -25,6 +25,9 @@ Based off original code by [didit-tech](https://github.com/didit-tech/FastLegS).
         // Hooray!
       });
     });
+
+
+    See [Getting Things Done]() for more examples.
 
 
 ## Installation
@@ -58,7 +61,7 @@ A. Pass in `verbose` option when connecting.
     Mapper.connect(conn, {verbose: true});
 
 
-Q. How do I do execute SQL?
+Q. How do I execute SQL?
 
 A. `Mapper.client#execScalar`, `Mapper.client#exec`, `Mapper.client#find`, `Mapper.client#findOne`
 
@@ -70,16 +73,26 @@ A. `Mapper.client#execScalar`, `Mapper.client#exec`, `Mapper.client#find`, `Mapp
 Q. How to do prepared statements?
 
 A. Unfortunately, this has not been implemented in the driver. For now,
-   use pseudo-bindings with the`'?'`.
+   use pseudo-bindings with `'?'` placeholders to bind locals.
 
-    Mapper.client.execScalar('select title from posts where blurb like ?', ['%foo%'], function(err, count) {
-        // count is an integer
-    });
+    Mapper.client.find('select title from posts where blurb like ?', ['%foo%'], cb);
+
+
+Q. What about validations?
+
+A. They belong in your models, preferrably in a shared Javascript file that
+   can be used on the client side.
+
+
+Q. What about migrations?
+
+A. See [mygrate],  an external utility I use for SQL migrations which is not
+   tied to any ORM.
 
 
 ## Best Practices
 
-A simple practice without over-engineering is to maintain 3 distinct layers in your code:
+A simple approach, without over-engineering, is to maintain 3 distinct layers in your code:
 
 1. Data Access Objects (DAO) - 1 to 1 mapping to database tables.
 2. Models - Aggregate one or more DAO and add business logic.

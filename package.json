@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "mocha": "~1.0.1",
-    "chai": "~0.5.3"
+    "chai": "~0.5.3",
+    "underscore.string": "*"
   },
   "main": "index",
   "scripts": { "test": "make test" },

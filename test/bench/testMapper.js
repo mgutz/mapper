@@ -13,6 +13,7 @@ function testMapper(cb) {
   var iteration = 0;
   async.whilst(
     function() { return iteration < 100000; },
+
     function (cb) {
       iteration++;
       if (iteration % 2 === 0) {
@@ -27,6 +28,7 @@ function testMapper(cb) {
         });
       }
     },
+
     function(err) {
       if (err) console.error(err);
       cb(err);

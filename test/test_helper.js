@@ -6,6 +6,7 @@ Mapper.connect(config);
 
 module.exports = {
   assert: assert,
-  Mapper: Mapper
+  Mapper: Mapper,
+  QueryBuilder: require('../lib/queryBuilder')
 };
 

@@ -25,7 +25,6 @@ function testMysql(cb) {
       }
     },
 
-
     function(err) {
       if (err) console.error(err);
       cb(err);
