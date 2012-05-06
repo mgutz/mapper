@@ -4,10 +4,15 @@ Fast MySQL ORM on top of the awesome `mysql-libmysqlclient` driver.
 
 The goal is to have a speedy ORM for node like that used by StackOverflow, [dapper-dot-net](http://code.google.com/p/dapper-dot-net/) .
 My internal benchmarks show Mapper is faster than JAVA ORMs like JDBI (dropwizard) and faster than other SQL-based ORMs
-for node. No bloat.
+for node.
 
-Based off original code by [didit-tech](https://github.com/didit-tech/FastLegS).
+Why another ORM. Current node.js ORMs try to add business logic with statics,
+virtual attributes, validations, etc. They're bloated. And with so much
+packed into those ORMs, it is difficult to share code like validations between client
+and server.
 
+work-in-progress! Moving away from FastLegS syntax to a cleaner, fluent
+and consistent API.
 
 ## Quickstart
 
@@ -15,19 +20,30 @@ Based off original code by [didit-tech](https://github.com/didit-tech/FastLegS).
     var conn = { user: 'dont' , password: 'blink' , database: 'now' };
     Mapper.connect(conn);
 
-    // table name only
-    var PostDao = Mapper.Base.extend({
-      tableName: 'posts'
-    });
+    // Define a DAO with DB table name and optional primary key.
+    var Comment = Mapper.map("Comments")
+      , Post = Mapper.map("Posts", "id");
 
-    PostDao.create({ title: 'Some Title 1', body: 'Some body 1' }, function(err, results) {
-      PostDao.find({ 'title.like': '%title%' }, { only: ['id', 'body'] }, function(err, post) {
-        // Hooray!
+    Post.hasMany("comments", Comment, "postId");
+    Comment.belongsTo("post", Post, "postId");
+
+    // Get the first page of posts and populate comments property
+    // with the second page of comments.
+    Post
+      .select('id, title, excerpt')
+      .page(0, 25)
+      .orderBy('createdAt DESC')
+      .populate('comments', function(c) {
+        c.select('comment', 'createdAt')
+         .orderBy('createdAt DESC')
+         .page(1, 50);
+      })
+      .one(function(err, row) {
+        assert.equal(row.comments.length, 2);
+        done();
       });
-    });
 
 
-    See [Getting Things Done]() for more examples.
 
 
 ## Installation
@@ -59,16 +75,6 @@ Q. How to view the SQL being sent to the server?
 A. Pass in `verbose` option when connecting.
 
     Mapper.connect(conn, {verbose: true});
-
-
-Q. How do I execute SQL?
-
-A. `Mapper.client#execScalar`, `Mapper.client#exec`, `Mapper.client#find`, `Mapper.client#findOne`
-
-    Mapper.client.execScalar('select count(*) from posts', function(err, count) {
-        // count is an integer
-    });
-
 
 Q. How to do prepared statements?
 

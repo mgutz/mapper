@@ -11,8 +11,10 @@ test-unit:
 test-integration:
 	@mocha -u exports -R spec test/integration/*test.js
 
-testqb:
-	@mocha -R spec test/unit/selectTest.js
+test-refactor: setup
+	@mocha -R spec test/unit/queryBuilderTest.js
+	@mocha -R spec test/integration/clientTest.js
+	@mocha -R spec test/integration/integrationTest.js
 
 bench: setup
 	time node test/bench/testMapper.js

@@ -8,10 +8,9 @@ var helper = require('../test_helper.js')
   , QueryBuilder = helper.QueryBuilder;
 
 /**
- * Model stub.
+ * Schema stub.
  */
-
-var model = {
+var schema = {
   tableName:  'model_name',
   primaryKey: 'index',
   _fields: [
@@ -23,8 +22,8 @@ var model = {
   ]
 };
 
-model._columns = _(model._fields).pluck('column_name');
-model.escapedTableName = '`'+model.tableName+'`';
+schema.columns = _(schema._fields).pluck('column_name');
+schema.escapedTableName = '`'+schema.tableName+'`';
 
 // whitespace doesn't matter to sql but it's esier to write unit test
 // if spaces are normalized
@@ -36,11 +35,54 @@ assert.equal = function(actual, expected, message) {
   oldEqual.apply(assert, Array.prototype.slice.call(arguments));
 }
 
-var qb = new QueryBuilder({model: model});
-var strictQb = new QueryBuilder({model: model, strict: true});
+var qb = new QueryBuilder({schema: schema});
+var strictQb = new QueryBuilder({schema: schema, strict: true});
 
-  // DELETE
-describe("DELETE", function() {
+
+describe("QueryBuilder", function() {
+
+
+// be careful
+describe("Buffer Operations", function() {
+  it('should get buffer', function() {
+    assert.equal(
+      qb.where('id = ?', [1]).getBuffer(qb.WHERE),
+      "WHERE id = 1"
+    );
+  });
+
+  it('should set buffer', function() {
+    assert.equal(
+      qb.reset().where('id = ?', [1])
+        .setBuffer(qb.WHERE, "WHERE foo = 'bar'")
+        .getBuffer(qb.WHERE),
+      "WHERE foo = 'bar'"
+    );
+
+    assert.equal(
+      qb.reset().where('id = ?', [1])
+        .setBuffer(qb.WHERE, "WHERE foo = ?", ['bar'])
+        .getBuffer(qb.WHERE),
+      "WHERE foo = 'bar'"
+    );
+  });
+
+  it('should track buffer changes', function() {
+    assert.isFalse(qb.reset().isChangedBuffer(qb.SELECT));
+    assert.isTrue(qb.reset().select('foo').isChangedBuffer(qb.SELECT));
+
+    assert.isFalse(qb.reset().isChangedBuffer(qb.WHERE));
+    assert.isTrue(qb.reset().where('foo').isChangedBuffer(qb.WHERE));
+  });
+
+  it('should be able to peek at the sql', function() {
+    assert.equal(qb.select().peekSql(), "SELECT * FROM `model_name` ;");
+  });
+
+}); // Buffer operationrs
+
+
+describe("Delete", function() {
   it('deletes all rows by default', function() {
     assert.equal(
       qb.delete().toSql(),
@@ -107,7 +149,7 @@ describe("DELETE", function() {
 }); // # end DELETE
 
 
-describe("INSERT", function() {
+describe("Insert", function() {
   it('basic with all valid fields', function() {
     var obj = { index: '1234', name: 'Joseph' };
 
@@ -172,7 +214,7 @@ describe("INSERT", function() {
 
 });
 
-describe("SELECT", function() {
+describe("Select", function() {
 
   it('single field', function() {
     assert.equal(
@@ -387,10 +429,9 @@ describe("SELECT", function() {
 
 
   it('throws an error on invalid fields in strict mode', function() {
-    var qb = new QueryBuilder({model: model, strict: true})
-      , test = function() {
-          qb.where({ 'name': 'foo', 'bad_field': 'bar', }) .toSql();
-        };
+    function test() {
+        strictQb.where({ 'name': 'foo', 'bad_field': 'bar', }) .toSql();
+    };
     assert.throws(test, Error);
   });
 
@@ -429,14 +470,17 @@ describe("SELECT", function() {
 }); // end describe
 
 
-describe("TRUNCATE", function() {
+describe("Truncate", function() {
+
   it("truncates", function() {
     assert.equal(qb.truncate().toSql(), "TRUNCATE `model_name` ;");
   });
+
 });
 
 
-describe("UPDATE", function() {
+describe("Update", function() {
+
   it('updates with all valid fields', function() {
     var obj = { index: '1234', name: 'Joseph' };
 
@@ -507,3 +551,5 @@ describe("UPDATE", function() {
   });
 
 }); // end UPDATE
+
+}); // end QueryBuilder

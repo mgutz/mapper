@@ -24,17 +24,34 @@ var create = {
       updated_at date,\
       CONSTRAINT posts_pkey PRIMARY KEY (id))",
 
+  tags:
+    "CREATE TABLE tags (\
+      id integer NOT NULL,\
+      name varchar(64))",
+
+  postsTags:
+    "CREATE TABLE postsTags (\
+      id integer NOT NULL,\
+      postId int not null,\
+      tagId int not null)",
+
+  moreDetails:
+    "CREATE TABLE postMoreDetails (\
+      id integer NOT NULL,\
+      postId int not null,\
+      extra varchar(132))",
+
   comments:
     "CREATE TABLE comments (\
       id integer NOT NULL,\
-      post_id integer NOT NULL,\
+      postId integer NOT NULL,\
       comment text NOT NULL,\
       created_at date,\
       CONSTRAINT comments_pkey PRIMARY KEY (id))",
 
-  comments_post_id_index:
+  commentsPostIdIndex:
     "CREATE INDEX comments_post_id \
-      ON comments(post_id)"
+      ON comments(postId)"
 };
 
 console.log("\nMapper. Please enter your MySQL credentials " +
@@ -66,12 +83,17 @@ async.series({
   client.querySync("CREATE DATABASE "+config.database);
   client.querySync("GRANT ALL PRIVILEGES ON "+config.database+".* TO '"+config.user+"'@'"+config.host+"';");
   client.closeSync();
+
   client = db.createConnectionSync(config.host, config.user, config.password, config.database);
+
   async.series([
     function(cb) { client.query(create.bench, cb); },
     function(cb) { client.query(create.posts, cb); },
+    function(cb) { client.query(create.tags, cb); },
+    function(cb) { client.query(create.moreDetails, cb); },
+    function(cb) { client.query(create.postsTags, cb); },
     function(cb) { client.query(create.comments, cb); },
-    function(cb) { client.query(create.comments_post_id_index, cb); }
+    function(cb) { client.query(create.commentsPostIdIndex, cb); }
   ], function(err, results) {
     if (err) console.error(err);
     if (!err) {

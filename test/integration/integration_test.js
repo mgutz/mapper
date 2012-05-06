@@ -36,14 +36,14 @@ module.exports = {
     ]
 
     var comments = [
-      { id: 1, post_id: 1, comment: 'Comment 1', created_at: new Date() },
-      { id: 2, post_id: 1, comment: 'Comment 2', created_at: new Date() },
-      { id: 3, post_id: 2, comment: 'Comment 3', created_at: new Date() },
-      { id: 4, post_id: 2, comment: 'Comment 4', created_at: new Date() },
-      { id: 5, post_id: 3, comment: 'Comment 5', created_at: new Date() },
-      { id: 6, post_id: 3, comment: 'Comment 6', created_at: new Date() },
-      { id: 7, post_id: 4, comment: 'Comment 7', created_at: new Date() },
-      { id: 8, post_id: 4, comment: 'Comment 8', created_at: new Date() }
+      { id: 1, postId: 1, comment: 'Comment 1', created_at: new Date() },
+      { id: 2, postId: 1, comment: 'Comment 2', created_at: new Date() },
+      { id: 3, postId: 2, comment: 'Comment 3', created_at: new Date() },
+      { id: 4, postId: 2, comment: 'Comment 4', created_at: new Date() },
+      { id: 5, postId: 3, comment: 'Comment 5', created_at: new Date() },
+      { id: 6, postId: 3, comment: 'Comment 6', created_at: new Date() },
+      { id: 7, postId: 4, comment: 'Comment 7', created_at: new Date() },
+      { id: 8, postId: 4, comment: 'Comment 8', created_at: new Date() }
     ]
 
     var Comment = Mapper.Base.extend({
@@ -55,7 +55,7 @@ module.exports = {
       tableName: 'posts',
       primaryKey: 'id',
       many: [
-        { 'comments': Comment, joinOn: 'post_id' }
+        { 'comments': Comment, joinOn: 'postId' }
       ]
     });
 
@@ -130,7 +130,7 @@ module.exports = {
           include: {
             'comments': {
               where: {'published': true },
-              only: ['id', 'post_id', 'published'],
+              only: ['id', 'postId', 'published'],
               order: ['id']
             }
           }
