@@ -224,6 +224,13 @@ describe("Select", function() {
     );
   });
 
+  it('single field using id helper', function() {
+    assert.equal(
+      qb.id('2345').toSql(),
+      "SELECT * FROM `model_name` WHERE index = '2345' ;"
+    );
+  });
+
 
   it('multiple fields', function() {
     assert.equal(
@@ -437,11 +444,11 @@ describe("Select", function() {
   });
 
 
-  it('returns a no return query on all invalid fields', function() {
-    assert.equal(
-      qb.where({bad_field: 0}).toSql(),
-      "SELECT * FROM `model_name` WHERE 1=0 ;"
-    );
+  it('throws an error on all invalid fields resulting in empty WHERE clause', function() {
+    function test() {
+      qb.where({bad_field: 0}).toSql();
+    }
+    assert.throws(test, Error);
   });
 
 

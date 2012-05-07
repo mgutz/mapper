@@ -191,5 +191,84 @@ describe("Dao", function() {
     });
   }); // end Relations
 
+
+  describe('Update', function() {
+    it('new post title', function(done) {
+      Post
+        .set({'title': 'Renamed Title'})
+        .where({ 'title': 'Some Title 1' })
+        .exec(function(err, result) {
+          assert.equal(1, result.affectedRows);
+          done();
+        });
+    });
+
+    it('new post title with weird characters', function(done) {
+      var newTitle = '"\'pants';
+      Post
+        .set({title: newTitle})
+        .where('id = 4')
+        .exec(function(er, results) {
+          assert.equal(1, results.affectedRows);
+          Post
+            .id(4)
+            .one(function(er, post) {
+              console.log(post);
+              assert.equal(newTitle, post.title);
+              done();
+            });
+        });
+    });
+  }); // end Update
+
+
+  describe('Delete', function() {
+
+    it('comment by primary key', function(done) {
+      Comment.delete().id(8).exec(function(err, results) {
+        assert.equal(1, results.affectedRows);
+        done();
+      });
+    });
+
+    it('multiple comments by primary key', function(done) {
+      Comment.delete().id([7, 6]).exec(function(err, result) {
+        assert.equal(2, result.affectedRows);
+        done();
+      });
+    });
+
+    it('destroy: comment via a basic selector', function(done) {
+      Comment.delete().where({comment:'Comment 5'}).exec(function(err, results) {
+        assert.equal(1, results.affectedRows);
+        done();
+      });
+    });
+
+    it('destroy: all comments', function(done) {
+      Comment.delete().exec(function(err, results) {
+        assert.equal(5, results.affectedRows);
+        done(err);
+      });
+    });
+
+    it('destroy: nothing via empty selector', function(done) {
+      Comment.delete().exec(function(err, results) {
+        assert.equal(0, results.affectedRows);
+        done(err);
+      });
+    });
+
+    it('destroy: error on bad selector', function(done) {
+      function test() {
+        Comment.delete().where({ 'bad_field': 3 }).exec();
+      }
+
+      assert.throws(test, Error);
+      done();
+    });
+
+  });
+
 }); // end Dao
 
