@@ -150,11 +150,10 @@ describe("Dao", function() {
 
     it('finds a post with options for populated relation', function(done) {
       Post
-        .select('id, blurb')
-        .where({'blurb like': '%Some blurb%'})
+        .select('id, blurb, published')
+        .where({'blurb like': '%Some blurb%', published: true})
         .populate('comments', function(c) {
-          c.select('id, postId, published')
-            .where({published: true})
+          c.select('id, postId, comment')
             .orderBy('id');
         })
         .all(function(err, results) {
@@ -163,14 +162,42 @@ describe("Dao", function() {
         });
     });
 
+
+  // this error was causing infinite loop
+  //SELECT `Comments`.id AS __id, `Posts`.* FROM `Posts`INNER JOIN `Comments`  ON `Posts`.id = `Comments`.postId WHERE `Posts`.id IN (1)    ;
+
   }); // end Select
 
 
   describe("Relations", function() {
-    it('should find child of hasOne relationship');
-    it('should get the parent of a belongsTo relationship');
+    it('should find child of hasOne relationship', function(done) {
+      Post.where('id = ?', [1]).populate('moreDetails').one(function(err, post) {
+        assert.equal(post.moreDetails.extra, 'extra');
+        done();
+      });
+    });
+
+    it('should get the parent of a belongsTo relationship', function(done) {
+      Comment.where('id = ?', [1]).populate('post').one(function(err, comment) {
+        console.log("COMMENT ", comment);
+        assert.equal(comment.post.title, 'Some Title 1');
+        done();
+      });
+    });
+
+    // it('should get the parent of a belongsTo relationship', function(done) {
+    //   Comment.where('id = ?', [1]).populate('post').one(function(err, comment) {
+    //     console.log("COMMENT ", comment);
+    //     assert.equal(comment.post.title, 'Some Title 1');
+    //     done();
+    //   });
+    // });
+
+
     it('should get the associated rows of a hasMany relationship');
+
     it('should get the associated rows of a hasManyThrough relationship');
+
   }); // end Relations
 
 }); // end Dao

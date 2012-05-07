@@ -1,18 +1,26 @@
 # Mapper
 
-Fast MySQL ORM on top of the awesome `mysql-libmysqlclient` driver.
+Mapper makes 80% of data access easy and provides unobtrusive access
+to SQL for the 20% complicated, speed-critical tasks. It does
+not try to replace SQL.
 
-The goal is to have a speedy ORM for node like that used by StackOverflow, [dapper-dot-net](http://code.google.com/p/dapper-dot-net/) .
-My internal benchmarks show Mapper is faster than JAVA ORMs like JDBI (dropwizard) and faster than other SQL-based ORMs
-for node.
 
-Why another ORM. Current node.js ORMs try to add business logic with statics,
-virtual attributes, validations, etc. They're bloated. And with so much
-packed into those ORMs, it is difficult to share code like validations between client
-and server.
+## Motivation
 
-work-in-progress! Moving away from FastLegS syntax to a cleaner, fluent
+Current node.js ORMs try to add business logic with statics,
+virtual attributes, validations, pseudo-class inheritance. They're BLOATED.
+Why have validations in the ORM when you could do validations in a separate
+module and share that between client and server? Simpler is better as
+development move towards single page apps, data services and shared code.
+
+Speed!
+
+
+NOTE:
+
+Work in progress. Moving away from FastLegS syntax to a cleaner, fluent
 and consistent API.
+
 
 ## Quickstart
 
@@ -38,11 +46,9 @@ and consistent API.
          .orderBy('createdAt DESC')
          .page(1, 50);
       })
-      .one(function(err, row) {
-        assert.equal(row.comments.length, 2);
-        done();
+      .all(function(err, rows) {
+        // boo-yah!
       });
-
 
 
 
@@ -89,7 +95,6 @@ Q. What about validations?
 A. They belong in your models, preferrably in a shared Javascript file that
    can be used on the client side.
 
-
 Q. What about migrations?
 
 A. See [mygrate],  an external utility I use for SQL migrations which is not
@@ -109,11 +114,3 @@ A simple approach, without over-engineering, is to maintain 3 distinct layers in
 
 * Mario Gutierrez (mgutz)
 
-
-### Original FastLegS
-
-Many thanks to the original project
-
-* Thad Clay (thadclay)
-* Jim Drannbauer (excellentdrums)
-* Rob Malko (malkomalko)

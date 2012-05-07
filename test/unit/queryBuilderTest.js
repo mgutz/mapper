@@ -5,7 +5,8 @@
 var helper = require('../test_helper.js')
   , _ = require('lodash')
   , str = require('underscore.string')
-  , QueryBuilder = helper.QueryBuilder;
+  , QueryBuilder = helper.QueryBuilder
+  , Index = QueryBuilder.Index;
 
 /**
  * Schema stub.
@@ -46,7 +47,7 @@ describe("QueryBuilder", function() {
 describe("Buffer Operations", function() {
   it('should get buffer', function() {
     assert.equal(
-      qb.where('id = ?', [1]).getBuffer(qb.WHERE),
+      qb.where('id = ?', [1]).getBuffer(Index.WHERE),
       "WHERE id = 1"
     );
   });
@@ -54,25 +55,25 @@ describe("Buffer Operations", function() {
   it('should set buffer', function() {
     assert.equal(
       qb.reset().where('id = ?', [1])
-        .setBuffer(qb.WHERE, "WHERE foo = 'bar'")
-        .getBuffer(qb.WHERE),
+        .setBuffer(Index.WHERE, "WHERE foo = 'bar'")
+        .getBuffer(Index.WHERE),
       "WHERE foo = 'bar'"
     );
 
     assert.equal(
       qb.reset().where('id = ?', [1])
-        .setBuffer(qb.WHERE, "WHERE foo = ?", ['bar'])
-        .getBuffer(qb.WHERE),
+        .setBuffer(Index.WHERE, "WHERE foo = ?", ['bar'])
+        .getBuffer(Index.WHERE),
       "WHERE foo = 'bar'"
     );
   });
 
   it('should track buffer changes', function() {
-    assert.isFalse(qb.reset().isChangedBuffer(qb.SELECT));
-    assert.isTrue(qb.reset().select('foo').isChangedBuffer(qb.SELECT));
+    assert.isFalse(qb.reset().isChangedBuffer(Index.SELECT));
+    assert.isTrue(qb.reset().select('foo').isChangedBuffer(Index.SELECT));
 
-    assert.isFalse(qb.reset().isChangedBuffer(qb.WHERE));
-    assert.isTrue(qb.reset().where('foo').isChangedBuffer(qb.WHERE));
+    assert.isFalse(qb.reset().isChangedBuffer(Index.WHERE));
+    assert.isTrue(qb.reset().where('foo').isChangedBuffer(Index.WHERE));
   });
 
   it('should be able to peek at the sql', function() {
@@ -344,7 +345,7 @@ describe("Select", function() {
           'email': 'joepancakes@email.com'
         })
         .limit(50)
-        .orderBy('field')
+        .order('field')
         .toSql(),
 
       "SELECT index, email FROM `model_name` " +
@@ -364,7 +365,7 @@ describe("Select", function() {
           'name': 'awesome sauce',
           'email': 'joepancakes@email.com'
         })
-        .orderBy('field')
+        .order('field')
         .toSql(),
 
       "SELECT index, email FROM `model_name` " +
@@ -383,7 +384,7 @@ describe("Select", function() {
           'name': 'awesome sauce',
           'email': 'joepancakes@email.com'
         })
-        .orderBy(['field DESC', 'field2'])
+        .order(['field DESC', 'field2'])
         .toSql(),
 
       "SELECT index, email FROM `model_name` " +
