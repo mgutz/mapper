@@ -52,6 +52,8 @@ and consistent API.
 
 
 
+
+
 ## Installation
 
     npm install mapper

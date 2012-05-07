@@ -2,8 +2,8 @@ var assert = global.assert = require('chai').assert,
   config = require('../.mapper.json'),
   Mapper = require('..');
 
-//Mapper.connect(config, {verbose: true});
-Mapper.connect(config);
+Mapper.connect(config, {verbose: true});
+//Mapper.connect(config);
 
 module.exports = {
   assert: assert,

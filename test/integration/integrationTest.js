@@ -83,11 +83,11 @@ describe("Dao", function() {
 
   before(function(done) {
     async.series([
-      function(cb) { PostTag.truncate().exec(cb); },
-      function(cb) { MoreDetail.truncate().exec(cb); },
-      function(cb) { Comment.truncate().exec(cb); },
-      function(cb) { Tag.truncate().exec(cb); },
-      function(cb) { Post.truncate().exec(cb); },
+      function(cb) { PostTag.truncate(cb); },
+      function(cb) { MoreDetail.truncate(cb); },
+      function(cb) { Comment.truncate(cb); },
+      function(cb) { Tag.truncate(cb); },
+      function(cb) { Post.truncate(cb); },
 
       function(cb) { Post.insert(posts).exec(cb); },
       function(cb) { Comment.insert(comments).exec(cb); },
@@ -131,9 +131,25 @@ describe("Dao", function() {
           done();
         });
     });
+  }); // end Select
 
 
-    it('finds all posts with populated comments', function(done) {
+  describe("Relations", function() {
+    it('should find child of hasOne relationship', function(done) {
+      Post.where('id = ?', [1]).populate('moreDetails').one(function(err, post) {
+        assert.equal(post.moreDetails.extra, 'extra');
+        done();
+      });
+    });
+
+    it('should populate the parent of a belongsTo relationship', function(done) {
+      Comment.where('id = ?', [1]).populate('post').one(function(err, comment) {
+        assert.equal(comment.post.title, 'Some Title 1');
+        done();
+      });
+    });
+
+    it('should populate hasMany', function(done) {
       Post
         .populate('comments')
         .all(function(err, rows) {
@@ -148,13 +164,13 @@ describe("Dao", function() {
         });
     });
 
-    it('finds a post with options for populated relation', function(done) {
+    it('should populate with callback options', function(done) {
       Post
         .select('id, blurb, published')
         .where({'blurb like': '%Some blurb%', published: true})
         .populate('comments', function(c) {
           c.select('id, postId, comment')
-            .orderBy('id');
+           .order('id');
         })
         .all(function(err, results) {
           assert.equal(2, results[0].comments.length);
@@ -162,42 +178,17 @@ describe("Dao", function() {
         });
     });
 
-
-  // this error was causing infinite loop
-  //SELECT `Comments`.id AS __id, `Posts`.* FROM `Posts`INNER JOIN `Comments`  ON `Posts`.id = `Comments`.postId WHERE `Posts`.id IN (1)    ;
-
-  }); // end Select
-
-
-  describe("Relations", function() {
-    it('should find child of hasOne relationship', function(done) {
-      Post.where('id = ?', [1]).populate('moreDetails').one(function(err, post) {
-        assert.equal(post.moreDetails.extra, 'extra');
-        done();
-      });
+    it('should get the associated rows of a hasManyThrough relationship', function(done) {
+      Post
+        .where({id: 1})
+        .populate("tags")
+        .one(function(err, post) {
+          assert.equal(post.tags.length, 2);
+          assert.equal(post.tags[0].name, 'funny');
+          assert.equal(post.tags[1].name, 'coding');
+          done();
+        });
     });
-
-    it('should get the parent of a belongsTo relationship', function(done) {
-      Comment.where('id = ?', [1]).populate('post').one(function(err, comment) {
-        console.log("COMMENT ", comment);
-        assert.equal(comment.post.title, 'Some Title 1');
-        done();
-      });
-    });
-
-    // it('should get the parent of a belongsTo relationship', function(done) {
-    //   Comment.where('id = ?', [1]).populate('post').one(function(err, comment) {
-    //     console.log("COMMENT ", comment);
-    //     assert.equal(comment.post.title, 'Some Title 1');
-    //     done();
-    //   });
-    // });
-
-
-    it('should get the associated rows of a hasMany relationship');
-
-    it('should get the associated rows of a hasManyThrough relationship');
-
   }); // end Relations
 
 }); // end Dao

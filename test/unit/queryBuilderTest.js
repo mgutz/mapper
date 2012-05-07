@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var helper = require('../test_helper.js')
-  , _ = require('lodash')
-  , str = require('underscore.string')
-  , QueryBuilder = helper.QueryBuilder
-  , Index = QueryBuilder.Index;
+var helper = require('../test_helper.js'),
+  _ = require('lodash'),
+  str = require('underscore.string'),
+  QueryBuilder = helper.QueryBuilder,
+  Index = QueryBuilder.Index;
 
 /**
  * Schema stub.
@@ -47,7 +47,7 @@ describe("QueryBuilder", function() {
 describe("Buffer Operations", function() {
   it('should get buffer', function() {
     assert.equal(
-      qb.where('id = ?', [1]).getBuffer(Index.WHERE),
+      qb.select().where('id = ?', [1]).getBuffer(Index.WHERE),
       "WHERE id = 1"
     );
   });
@@ -471,22 +471,13 @@ describe("Select", function() {
 }); // end describe
 
 
-describe("Truncate", function() {
-
-  it("truncates", function() {
-    assert.equal(qb.truncate().toSql(), "TRUNCATE `model_name` ;");
-  });
-
-});
-
-
 describe("Update", function() {
 
   it('updates with all valid fields', function() {
     var obj = { index: '1234', name: 'Joseph' };
 
     assert.equal(
-      qb.set(obj).where({'age >': 15 }).toSql(),
+      qb.update().set(obj).where({'age >': 15 }).toSql(),
       "UPDATE `model_name` " +
       "SET index = '1234', name = 'Joseph' " +
       "WHERE age > 15 ;"
@@ -502,7 +493,7 @@ describe("Update", function() {
     };
 
     assert.equal(
-      qb.set(obj).where({name: 'joe'}).toSql(),
+      qb.update().set(obj).where({name: 'joe'}).toSql(),
       "UPDATE `model_name` " +
       "SET age = 8, name = 'Bob', email = 'bob@email.com' " +
       "WHERE name = 'joe' ;"
@@ -518,7 +509,7 @@ describe("Update", function() {
     };
 
     function test() {
-      strictQb.set(obj).where({name: 'joe'}).toSql();
+      strictQb.update().set(obj).where({name: 'joe'}).toSql();
     }
     assert.throws(test, Error);
   });
@@ -532,7 +523,7 @@ describe("Update", function() {
     };
 
     assert.equal(
-      qb.set(obj).toSql(),
+      qb.update().set(obj).toSql(),
       "UPDATE `model_name` " +
       "SET age = 8, name = 'Bob', email = 'bob@email.com' ;"
     );
