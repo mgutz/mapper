@@ -21,7 +21,7 @@ Speed!
 Conect to Database
 
     var Mapper = require('mapper');
-    var conn = { user: 'dont' , password: 'blink' , database: 'now' };
+    var conn = { user: 'dont', password: 'blink', database: 'now' };
     Mapper.connect(conn);
 
 Define Data Access Objects
