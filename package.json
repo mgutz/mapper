@@ -1,6 +1,6 @@
 {
   "name": "mapper",
-  "version": "0.1.5",
+  "version": "0.2.0-pre",
   "description": "Lightweight, blazing fast ORM on top of mysql-libmysqlclient.",
   "tags" : ["orm", "mysql", "mysql-libmysqlclient"],
   "contributors": [
