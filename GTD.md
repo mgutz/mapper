@@ -1,25 +1,25 @@
 # Get Things Done
 
-
 ## SQL
 
 
+## Dao Configuration
+
+    PostDao = Mapper.map("posts");
+    CommentDao = Mapper.map("comments");
+
+    PostDao.many("comments", CommentDao, "postId");
+    CommentDao.one("post", PostDao, "postId");
 
 
-## One to Many
+## Has Many
 
-A post has many comments:
 
-    PostDao = Mapper.Dao("posts");
-    CommentDao = Mapper.Dao("comments");
 
-    PostDao.many("comments", CommentDao, "post_id");
-    CommentDao.one("post", PostDao, "post_id");
+A post has many comments
 
 
 ## Many to Many
-
-
 
 
 ## Many through

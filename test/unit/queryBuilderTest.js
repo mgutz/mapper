@@ -289,6 +289,37 @@ describe("Select", function() {
     );
   });
 
+  it('selects fields by argument list', function() {
+    assert.equal(
+      qb.select("index", "email")
+        .where({
+          'name': 'awesome sauce',
+          'email': 'joepancakes@email.com'
+        })
+        .toSql(),
+
+      "SELECT index,email FROM `model_name` " +
+      "WHERE name = 'awesome sauce' " +
+      "AND email = 'joepancakes@email.com' ;"
+    );
+  });
+
+
+  it('select empty returns *', function() {
+    assert.equal(
+      qb.select([])
+        .where({
+          'name': 'awesome sauce',
+          'email': 'joepancakes@email.com'
+        })
+        .toSql(),
+
+      "SELECT * FROM `model_name` " +
+      "WHERE name = 'awesome sauce' " +
+      "AND email = 'joepancakes@email.com' ;"
+    );
+  });
+
 
   it('limits', function() {
     assert.equal(

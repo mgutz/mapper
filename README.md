@@ -38,20 +38,20 @@ and consistent API.
     // Get the first page of posts and populate comments property
     // with the second page of comments.
     Post
-      .select('id, title, excerpt')
+      .select('id', 'title', 'excerpt')
       .page(0, 25)
-      .orderBy('createdAt DESC')
-      .populate('comments', function(c) {
+      .order('id DESC')
+      .load('comments', function(c) {
         c.select('comment', 'createdAt')
-         .orderBy('createdAt DESC')
+         .orderBy('id DESC')
          .page(1, 50);
       })
-      .all(function(err, rows) {
+      .all(function(err, posts) {
         // boo-yah!
       });
 
-
-
+    // Populate existing rowset
+    Post.load('comments').in(posts, cb);
 
 
 ## Installation

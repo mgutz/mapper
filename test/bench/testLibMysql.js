@@ -8,7 +8,7 @@ function testLibMysql(cb) {
 
   var iteration = 0;
   async.whilst(
-    function() { return iteration < 100000; },
+    function() { return iteration < 500000; },
 
     function (cb) {
       iteration++;

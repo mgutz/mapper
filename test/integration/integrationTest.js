@@ -109,7 +109,6 @@ describe("Dao", function() {
         });
     });
 
-
     it('finds a post using string and only return certain fields', function(done) {
       Post
         .select('id')
@@ -121,37 +120,188 @@ describe("Dao", function() {
         });
     });
 
-
-    it('finds a post with populated comments', function(done) {
+    it('properly ignores unknown columns', function(callback) {
       Post
-        .where({id: posts[0].id})
-        .populate('comments')
-        .one(function(err, row) {
-          assert.equal(row.comments.length, 2);
+        .select(['id', 'bad_field'])
+        .where({'body': 'Some body 2'})
+        .all(function(err, results) {
+          assert.equal(1, results.length);
+          callback(err, results);
+        })
+    });
+
+    it('ignores all unknown columns returning everything', function(callback) {
+      Post
+        .select(['bad_field'])
+        .where({id: 1})
+        .all(function(err, results) {
+          assert.equal(1, results.length);
+          callback(err, results);
+        });
+    });
+
+    it('ignores empty only clause returning everything', function(done) {
+      Post.select([]).where({id: 2 }).all(function(err, results) {
+        assert.equal(1, results.length);
+        done();
+      });
+    });
+
+    it('finds using in clause with one item', function(done) {
+      Post.where({ 'title IN': [['Some Title 1']] }).all(function(err, results) {
+        assert.equal(1, results.length);
+        done();
+      });
+    });
+
+    it('finds using IN clause in string with multiple items', function(done) {
+      Post.where('title IN (?)', [['Some Title 1', 'Some Title 2']]).all(function(err, results) {
+        assert.equal(2, results.length);
+        done();
+      });
+    });
+
+    it('finds using NOT IN clause with one item', function(done) {
+      Post
+        .where({'title NOT IN': [['Some Title 1']]})
+        .all(function(err, results) {
+          assert.equal(3, results.length);
           done();
         });
+    });
+
+    it('finds one comment via a basic selector', function(done) {
+      Comment.where({ 'comment':'Comment 5' }).one(function(err, comment) {
+        assert.equal('Comment 5', comment.comment);
+        done();
+      });
+    });
+
+    it('returns undefined when not found', function(done) {
+      Comment.where({ 'comment':'Comment 18' }).one(function(err, comment) {
+        assert.equal(undefined, comment);
+        done();
+      });
+    });
+
+    it('finds a post and return alias fields', function(done) {
+      Post
+        .select('title AS some_alias_title, blurb AS some_alias_blurb')
+        .where({ 'id': 1 })
+        .one(function(err, row) {
+          assert.equal(posts[0].title, row['some_alias_title']);
+          assert.equal(posts[0].blurb, row['some_alias_blurb']);
+          done();
+         });
+     });
+
+    it('finds a post and order results descending using aliased columns', function(done) {
+        Post.select("title AS some_alias_title, id AS 'some id'")
+          .id([1,2])
+          .order("id DESC")
+          .all(function(err, results) {
+            assert.equal(posts[1].id, results[0]['some id']);
+            assert.equal(posts[0].id, results[1]['some id']);
+            done();
+          });
+    });
+
+    it('finds last 2 post ids using offset', function(done) {
+      Post.select('id').limit(2).offset(2).all(function(err, results) {
+        assert.equal(posts[2].id, results[0].id);
+        assert.equal(posts[3].id, results[1].id);
+        done();
+      })
+    });
+
+    it('finds with order and limit', function(done) {
+      Post.select('id').order('id DESC').limit(1)
+        .all(function(err, results) {
+          assert.equal(posts[3].id, results[0].id);
+          done();
+        })
+    });
+
+    it('finds with order and offset', function(done) {
+      Post.select('id').order('id DESC').limit(3).offset(1)
+        .all(function(err, results) {
+          assert.equal(posts[2].id, results[0].id);
+          assert.equal(posts[1].id, results[1].id);
+          assert.equal(posts[0].id, results[2].id);
+          done();
+        });
+    });
+
+    it('finds with order, offset and limit', function(done) {
+      Post.select('id').order('id DESC').limit(2).offset(1)
+        .all(function(err, results) {
+          console.log(results);
+          assert.equal(posts[2].id, results[0].id);
+          assert.equal(posts[1].id, results[1].id);
+          done();
+         });
+    });
+
+    it('finds a post with empty blurbs', function(done) {
+      var expected = 0;
+      _.each(posts, function(post) {
+        if (_.isNull(post.blurb) || _.isUndefined(post.blurb)) { expected++; }
+      });
+
+      Post.where({blurb: null}).all(function(err, results) {
+        assert.equal(expected, results.length);
+        done();
+      });
+    });
+
+    it('should get first page', function(done) {
+      Comment.select('id').page(0, 3).all(function(err, rows) {
+        assert.equal(3, rows.length);
+        assert.equal(1, rows[0].id);
+        assert.equal(2, rows[1].id);
+        assert.equal(3, rows[2].id);
+        done();
+      });
+    });
+
+    it('should get last page', function(done) {
+      Comment.select('id').page(1, 7).all(function(err, rows) {
+        assert.equal(2, rows.length);
+        assert.equal(8, rows[0].id);
+        assert.equal(9, rows[1].id);
+        done();
+      });
     });
   }); // end Select
 
 
   describe("Relations", function() {
-    it('should find child of hasOne relationship', function(done) {
-      Post.where('id = ?', [1]).populate('moreDetails').one(function(err, post) {
+    it('should load child of hasOne relationship', function(done) {
+      Post.where('id = ?', [1]).load('moreDetails').one(function(err, post) {
         assert.equal(post.moreDetails.extra, 'extra');
         done();
       });
     });
 
-    it('should populate the parent of a belongsTo relationship', function(done) {
-      Comment.where('id = ?', [1]).populate('post').one(function(err, comment) {
+    it('should load child of hasOne relationship with existing rowset', function(done) {
+      Post.where('id = ?', [1]).one(function(err, post) {
+        Post.load('moreDetails').in(post, function(err) {
+          assert.equal(post.moreDetails.extra, 'extra');
+          done();
+        });
+      });
+    });
+
+    it('should load the parent of a belongsTo relationship', function(done) {
+      Comment.where('id = ?', [1]).load('post').one(function(err, comment) {
         assert.equal(comment.post.title, 'Some Title 1');
         done();
       });
     });
 
-    it('should populate hasMany', function(done) {
+    it('should load hasMany', function(done) {
       Post
-        .populate('comments')
+        .load('comments')
         .all(function(err, rows) {
           assert.equal(rows[0].comments.length, 2);
           assert.equal(rows[0].comments[0].id, 1);
@@ -164,11 +314,11 @@ describe("Dao", function() {
         });
     });
 
-    it('should populate with callback options', function(done) {
+    it('should load with callback options', function(done) {
       Post
         .select('id, blurb, published')
         .where({'blurb like': '%Some blurb%', published: true})
-        .populate('comments', function(c) {
+        .load('comments', function(c) {
           c.select('id, postId, comment')
            .order('id');
         })
@@ -181,7 +331,7 @@ describe("Dao", function() {
     it('should get the associated rows of a hasManyThrough relationship', function(done) {
       Post
         .where({id: 1})
-        .populate("tags")
+        .load("tags")
         .one(function(err, post) {
           assert.equal(post.tags.length, 2);
           assert.equal(post.tags[0].name, 'funny');
