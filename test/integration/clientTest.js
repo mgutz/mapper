@@ -43,8 +43,8 @@ describe("Client", function() {
 
 
   it('should find rows', function(done) {
-    mapper.client.all('select * from information_schema.columns', function(err, rows) {
-      assert.ok(rows.length > 0);
+    mapper.client.all('select * from information_schema.columns limit 2', function(err, rows) {
+      assert.equal(rows.length, 2);
       done();
     });
   });

@@ -235,7 +235,6 @@ describe("Dao", function() {
     it('finds with order, offset and limit', function(done) {
       Post.select('id').order('id DESC').limit(2).offset(1)
         .all(function(err, results) {
-          console.log(results);
           assert.equal(posts[2].id, results[0].id);
           assert.equal(posts[1].id, results[1].id);
           done();
@@ -363,7 +362,6 @@ describe("Dao", function() {
           Post
             .id(4)
             .one(function(er, post) {
-              console.log(post);
               assert.equal(newTitle, post.title);
               done();
             });

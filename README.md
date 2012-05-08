@@ -1,8 +1,7 @@
 # Mapper
 
 Mapper makes 80% of data access easy and provides unobtrusive access
-to SQL for the 20% complicated, speed-critical tasks. It does
-not try to replace SQL.
+to SQL for the 20% complicated, speed-critical tasks.
 
 
 ## Motivation
@@ -16,19 +15,13 @@ development move towards single page apps, data services and shared code.
 Speed!
 
 
-NOTE:
-
-Work in progress. Moving away from FastLegS syntax to a cleaner, fluent
-and consistent API.
-
-
 ## Quickstart
 
     var Mapper = require('mapper');
     var conn = { user: 'dont' , password: 'blink' , database: 'now' };
     Mapper.connect(conn);
 
-    // Define a DAO with DB table name and optional primary key.
+    // Define a DAO with table name and optional primary key.
     var Comment = Mapper.map("Comments")
       , Post = Mapper.map("Posts", "id");
 
@@ -50,8 +43,14 @@ and consistent API.
         // boo-yah!
       });
 
-    // Populate existing rowset
-    Post.load('comments').in(posts, cb);
+
+    // OR, if you like SQL
+    Post.sql("SELECT id, title, excerpt FROM `Posts` ORDER BY id DESC LIMIT 0, 25")
+      .all(function(err, posts) {
+        Post.load('comments').in(posts, function(err) {
+            // boo-yah!
+        });
+      });
 
 
 ## Installation
@@ -63,17 +62,23 @@ and consistent API.
 
 Time for 100,000 iterations alternating between insert and select. See `test/bench` or run `make bench`.
 
-mapper
-
-    real    0m24.197s   user    0m11.146s   sys     0m3.630s
-
 mysql-libmysqlclient
 
-    real    0m18.165s   user    0m6.613s    sys     0m3.396s
+    real	0m29.871s
+    user	0m9.702s
+    sys	        0m3.907s
+
+mapper
+
+    real	0m35.187s
+    user	0m12.919s
+    sys	        0m3.889s
 
 node-mysql
 
-    real    0m34.283s   user    0m19.964s   sys     0m2.541s
+    real	1m5.828s
+    user	0m35.650s
+    sys	        0m3.072s
 
 
 ## FAQ

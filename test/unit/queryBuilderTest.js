@@ -198,21 +198,6 @@ describe("Insert", function() {
     );
   });
 
-  // it('insert statement: ignore invalid fields', function() {
-  //   var obj = {
-  //     bad_field: 'abcdef',
-  //     email: 'bob@email.com',
-  //     name: 'Bob',
-  //     age: 8
-  //   };
-
-  //   assert.equal(
-  //     Statements.insert(model, obj, []),
-  //     "INSERT INTO `model_name`(email,name,age) " +
-  //     "VALUES(?,?,?);"
-  //   );
-  // });
-
 });
 
 describe("Select", function() {
@@ -223,6 +208,14 @@ describe("Select", function() {
       "SELECT * FROM `model_name` WHERE index = '2345' ;"
     );
   });
+
+  it('should allow straight sql', function() {
+    assert.equal(
+      qb.sql('SELECT * FROM foo').toSql(),
+      "SELECT * FROM foo"
+    );
+  });
+
 
   it('single field using id helper', function() {
     assert.equal(

@@ -8,7 +8,7 @@ function testLibMysql(cb) {
 
   var iteration = 0;
   async.whilst(
-    function() { return iteration < 500000; },
+    function() { return iteration < 100000; },
 
     function (cb) {
       iteration++;
@@ -18,7 +18,7 @@ function testLibMysql(cb) {
           cb(err);
         });
       } else {
-        client.query("select * from users limit 10;", function(err, result) {
+        client.query("select * from users limit 25;", function(err, result) {
           result.fetchAll(function(err, rows) {
             //if (iteration === 3) console.log(rows);
             cb(err);
