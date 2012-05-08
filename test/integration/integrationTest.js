@@ -82,7 +82,7 @@ Comment.belongsTo("post", Post, "postId");
 describe("Dao", function() {
 
   before(function(done) {
-    async.series([
+    var commands = [
       function(cb) { PostTag.truncate(cb); },
       function(cb) { MoreDetail.truncate(cb); },
       function(cb) { Comment.truncate(cb); },
@@ -94,7 +94,9 @@ describe("Dao", function() {
       function(cb) { Tag.insert(tags).exec(cb); },
       function(cb) { MoreDetail.insert(moreDetails).exec(cb); },
       function(cb) { PostTag.insert(postsTags).exec(cb); }
-    ], done);
+    ];
+
+    async.series(commands, done);
   });
 
 
