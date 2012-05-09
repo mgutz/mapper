@@ -7,7 +7,7 @@ to SQL for the 20% complicated, speed-critical tasks.
 ## Motivation
 
 Current node.js ORMs try to add business logic with statics,
-virtual attributes, validations, pseudo-class inheritance. They're BLOATED.
+virtual attributes, validations, pseudo-class inheritance. They're bloated.
 Why have validations in the ORM when you could do validations in a separate
 module and share that between client and server? Simpler is better as
 development move towards single page apps, data services and shared code.
@@ -81,7 +81,9 @@ OR, if you prefer SQL
                 ORDER BY id DESC LIMIT 0, 25";
 
     Post.all(sql, function(err, posts) {
-      Post.load('comments').in(posts, function(err) {
+      Post.load('comments', function(c) {
+        c.sql("SELECT comment, createdAt FROM Comments ORDER BY id DESC LIMIT 1, 50");
+      }).in(posts, function(err) {
         // boo-yah!
       });
     });

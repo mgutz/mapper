@@ -48,23 +48,23 @@ describe("Buffer Operations", function() {
   it('should get buffer', function() {
     assert.equal(
       qb.select().where('id = ?', [1]).getBuffer(Index.WHERE),
-      "WHERE id = 1"
+      "id = 1"
     );
   });
 
   it('should set buffer', function() {
     assert.equal(
       qb.reset().where('id = ?', [1])
-        .setBuffer(Index.WHERE, "WHERE foo = 'bar'")
+        .setBuffer(Index.WHERE, "foo = 'bar'")
         .getBuffer(Index.WHERE),
-      "WHERE foo = 'bar'"
+      "foo = 'bar'"
     );
 
     assert.equal(
       qb.reset().where('id = ?', [1])
-        .setBuffer(Index.WHERE, "WHERE foo = ?", ['bar'])
+        .setBuffer(Index.WHERE, "foo = ?", ['bar'])
         .getBuffer(Index.WHERE),
-      "WHERE foo = 'bar'"
+      "foo = 'bar'"
     );
   });
 
@@ -511,6 +511,18 @@ describe("Update", function() {
       qb.update().set(obj).where({'age >': 15 }).toSql(),
       "UPDATE `model_name` " +
       "SET index = '1234', name = 'Joseph' " +
+      "WHERE age > 15 ;"
+    );
+  }),
+
+  it('should allow from', function() {
+    var obj = { index: '1234', name: 'Joseph' };
+
+    assert.equal(
+      qb.update('A').set(obj).from('table A').where({'age >': 15 }).toSql(),
+      "UPDATE A " +
+      "SET index = '1234', name = 'Joseph' " +
+      "FROM table A "+
       "WHERE age > 15 ;"
     );
   }),

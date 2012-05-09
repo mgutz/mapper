@@ -17,7 +17,7 @@ test-refactor: setup
 	@mocha -R spec test/integration/integrationTest.js
 
 bench: setup
-#	time node test/bench/testMapper.js
+	time node test/bench/testMapper.js
 	time node test/bench/testMapperDao.js
-	time node test/bench/testMysql.js
-	time node test/bench/testLibMysql.js
+#	time node test/bench/testMysql.js
+#	time node test/bench/testLibMysql.js
