@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-test: setup test-unit test-integration
+test: setup test-mapper
 
 setup:
 	@[ -e ".mapper.json" ] || node test/bootstrap/init.js
@@ -11,7 +11,7 @@ test-unit:
 test-integration:
 	@mocha -u exports -R spec test/integration/*test.js
 
-test-refactor: setup
+test-mapper:
 	@mocha -R spec test/unit/queryBuilderTest.js
 	@mocha -R spec test/integration/clientTest.js
 	@mocha -R spec test/integration/integrationTest.js
