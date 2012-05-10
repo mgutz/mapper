@@ -40,6 +40,7 @@ Define Relationships
     Comment.belongsTo("post", Post, "postId");
 
 CRUD
+
     var insertId;
 
     Post.insert({ title: 'First Post' }).exec(function(err, result) {
@@ -91,14 +92,14 @@ OR, if you prefer SQL
 
 Time for 100,000 iterations alternating between insert and select. See `test/bench` or run `make bench`.
 
-mysql-libmysqlclient    0m29.871s
-mapper                  0m35.187s
-node-mysql              1m5.828s
+    mysql-libmysqlclient    0m29.871s
+    mapper                  0m35.187s
+    node-mysql              1m5.828s
 
 The take away is `mysql-libmysqlclient` is a much faster driver than the
 widely used `mysql` driver. Mapper adds a little overhead but is still
-noticeably faster than raw `mysql` driver. These numbers fluctuate.
-Most runs show `mapper` performing at least 30% better than `mysql`.
+faster than raw `mysql` driver. These numbers fluctuate. NOTE: most runs
+show `mapper` performing around 30% better than `mysql`.
 
 
 ## Implementation Best Practice
