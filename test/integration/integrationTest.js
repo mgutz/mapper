@@ -388,28 +388,28 @@ describe("Dao", function() {
       });
     });
 
-    it('destroy: comment via a basic selector', function(done) {
+    it('delete comment via a basic selector', function(done) {
       Comment.delete().where({comment:'Comment 5'}).exec(function(err, results) {
         assert.equal(1, results.affectedRows);
         done();
       });
     });
 
-    it('destroy: all comments', function(done) {
+    it('delete all', function(done) {
       Comment.delete().exec(function(err, results) {
         assert.equal(5, results.affectedRows);
         done(err);
       });
     });
 
-    it('destroy: nothing via empty selector', function(done) {
+    it('delete nothing via empty selector', function(done) {
       Comment.delete().exec(function(err, results) {
         assert.equal(0, results.affectedRows);
         done(err);
       });
     });
 
-    it('destroy: error on bad selector', function(done) {
+    it(' error on bad selector', function(done) {
       function test() {
         Comment.delete().where({ 'bad_field': 3 }).exec();
       }
