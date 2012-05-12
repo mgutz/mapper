@@ -115,7 +115,8 @@ A simple approach, without over-engineering your project, is to maintain
    There should be 1 DAO for each table used by project.
 2. Models - Contains domain objects. A model usually aggregates one or more DAO
    adding business logic, validations as needed.
-3. Resources or Services - This layer should only user models never DAO.
+3. Resources or Services - This layer should only use models never DAO.
 
-On larger, more complex projects, a Repository layer between DAO and models is
-recommended to insulate models completely from low-level data access.
+On more complex projects where tables might be better off in Redis for
+example, insert a Repository layer between DAO and models to insulate models
+completely from low-level data access.
