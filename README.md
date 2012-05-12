@@ -113,8 +113,7 @@ A simple approach, without over-engineering your project, is to maintain
 
 1. Data Access Objects (DAO) - Responsible for interacting with the database.
    There should be 1 DAO for each table used by project.
-2. Models - Contains domain objects. A model usually aggregates one or more DAO
-   adding business logic, validations as needed.
+2. Models - A model uses one or more DAO adding business logic, validations as needed.
 3. Resources or Services - This layer should only use models never DAO.
 
 On more complex projects where tables might be better off in Redis for
