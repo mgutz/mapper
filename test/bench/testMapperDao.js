@@ -24,7 +24,7 @@ function testMapper(cb) {
             cb(err);
           });
       } else {
-        UserDao.select().limit(25).all(cb);
+        UserDao.select('userName', 'firstName', 'lastName').limit(25).all(cb);
           // .all(function(err, found) {
           //   if (iteration === 3)  console.log(found);
           //   cb(err);

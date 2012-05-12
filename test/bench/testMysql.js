@@ -18,7 +18,7 @@ function testMysql(cb) {
           cb(err);
         });
       } else {
-        client.query("select * from users limit 25;", function(err, result) {
+        client.query("select userName, firstName, lastName from users limit 25;", function(err, result) {
           //if (iteration === 3) console.log(result);
           cb(err);
         });

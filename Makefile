@@ -20,8 +20,8 @@ test-mapper:
 bench: setup
 	time node test/bench/testMapper.js
 	time node test/bench/testMapperDao.js
-#	time node test/bench/testMysql.js
-#	time node test/bench/testLibMysql.js
+	time node test/bench/testMysql.js
+	time node test/bench/testLibMysql.js
 #
 bench2: setup
 	time node test/bench/testMapperDaoQ.js

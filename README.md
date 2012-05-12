@@ -6,13 +6,13 @@ to SQL for the 20% complicated, speed-critical tasks.
 
 ## Motivation
 
-Current node.js ORMs try to add business logic with statics,
+Current node.js ORMs try to add business logic to models with statics,
 virtual attributes, validations, pseudo-class inheritance. They're bloated.
-Why have validations in the ORM when you could do validations in a separate
-module and share that between client and server? Simpler is better as
-development move towards single page apps, data services and shared code.
+As an example, why have validations in the ORM when you could do validations
+in a separate module and share that between client and server? Simpler is better
+as development move towards single page apps, data services and shared code.
 
-Speed!
+Speed and simplicity.
 
 
 ## Install
@@ -30,7 +30,7 @@ Conect to Database
 
 Define Data Access Objects
 
-    // table name and optional primary key
+    // Table name and optional primary key
     var Comment = Mapper.map("Comments")
       , Post = Mapper.map("Posts", "id");
 
@@ -51,17 +51,17 @@ CRUD
         assert.equal(post.title, 'First Post,');
     });
 
-    Post.set({ title: 'New Title'}).exec(function(err, result) {
+    Post.set({ title: 'New Title' }).exec(function(err, result) {
         assert.equal(result.affectedRows, 1);
     });
 
-    Post.delete({ title: 'New Title'}).exec(function(err, result) {
+    Post.delete().where({ title: 'New Title' }).exec(function(err, result) {
         assert.equal(result.affectedRows, 1);
     });
 
 
 Gets the first page of posts and populate comments property with
-the second page of comments.
+the second page of comments for each post retrieved.
 
     Post
       .select('id', 'title', 'excerpt')
@@ -92,16 +92,18 @@ OR, if you prefer SQL
 
 ## Benchmarks
 
-Time for 100,000 iterations alternating between insert and select. See `test/bench` or run `make bench`.
+Time for 100,000 iterations alternating between insert and select. See `test/bench`
+or run `make bench`.
 
-    mysql-libmysqlclient    0m29.871s
-    mapper                  0m35.187s
-    node-mysql              1m5.828s
+    node-mysql-libmysqlclient   0m24.272s
+    mapper                      0m33.462s
+    node-mysql                  0m49.919s
 
 The take away is `mysql-libmysqlclient` is a much faster driver than the
-widely used `mysql` driver. Mapper adds a little overhead but is still
-faster than raw `mysql` driver. These numbers fluctuate. NOTE: most runs
-show `mapper` performing around 30% better than `mysql`.
+widely used `mysql` driver. Mapper, which is based on `mysql-libmysqlclient` adds
+overhead but is still faster than raw `mysql` driver.
+
+Most test runs show `mapper` performing around 30% better than `mysql` driver.
 
 
 ## Implementation Best Practice
@@ -115,5 +117,5 @@ A simple approach, without over-engineering your project, is to maintain
    adding business logic, validations as needed.
 3. Resources or Services - This layer should only user models never DAO.
 
-On larger, more complex projects, a Repository later between 1 and 2 is
+On larger, more complex projects, a Repository layer between DAO and models is
 recommended to insulate models completely from low-level data access.
