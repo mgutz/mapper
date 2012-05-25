@@ -4,7 +4,9 @@ var async = require("async")
 
 function testMysql(cb) {
   var mysql = require('mysql')
-    , client = mysql.createClient(config);
+    //, client = mysql.createClient(config);
+    , client = mysql.createConnection(config);
+
 
   var iteration = 0;
   async.whilst(
@@ -13,13 +15,13 @@ function testMysql(cb) {
     function (cb) {
       iteration++;
       if (iteration % 2 === 0) {
-        client.query("insert into users(userName, firstName, lastName) values('mysql', 'is', 'slow')", function(err, result) {
-          //if (iteration === 2) console.log(result);
+        client.query("insert into users(userName, firstName, lastName) values('mysql', 'is', 'slow');", function(err, result) {
+          if (iteration === 2) console.log(result);
           cb(err);
         });
       } else {
-        client.query("select userName, firstName, lastName from users limit 25;", function(err, result) {
-          //if (iteration === 3) console.log(result);
+        client.query("select userName, firstName, lastName from users limit 50;", function(err, rows, fields) {
+          if (iteration === 3) console.log(rows);
           cb(err);
         });
       }

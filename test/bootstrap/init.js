@@ -11,7 +11,7 @@ var create = {
        firstName varchar(255), \
        lastName varchar(255), \
        createdAt timestamp default current_timestamp \
-     ) Engine=InnoDB",
+     ) Engine=InnoDB DEFAULT CHARSET=utf8",
 
   posts:
     "CREATE TABLE posts (\

@@ -18,7 +18,7 @@ function testLibMysql(cb) {
           cb(err);
         });
       } else {
-        client.query("select userName, firstName, lastName from users limit 25;", function(err, result) {
+        client.query("select userName, firstName, lastName from users limit 50", function(err, result) {
           result.fetchAll(function(err, rows) {
             //if (iteration === 3) console.log(rows);
             cb(err);

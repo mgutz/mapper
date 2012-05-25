@@ -17,6 +17,8 @@ Speed and simplicity.
 
 ## Install
 
+To use mapper
+
     npm install mapper
 
 
@@ -99,9 +101,9 @@ or run `make bench`.
     mapper                      0m33.462s
     node-mysql                  0m49.919s
 
-The take away is `mysql-libmysqlclient` is a much faster driver than the
+The takeaway is `mysql-libmysqlclient` is a much faster driver than the
 widely used `mysql` driver. Mapper, which is based on `mysql-libmysqlclient` adds
-overhead but is still faster than raw `mysql` driver.
+overhead yet outperforms the raw `mysql` driver.
 
 Most test runs show `mapper` performing around 30% better than `mysql` driver.
 
@@ -116,6 +118,6 @@ A simple approach, without over-engineering your project, is to maintain
 2. Models - A model uses one or more DAO adding business logic, validations as needed.
 3. Resources or Services - This layer should only use models never DAO.
 
-On more complex projects where tables might be better off in Redis for
+On a more complex project where a few tables might be better stored in Redis for
 example, insert a Repository layer between DAO and models to insulate models
 completely from low-level data access.

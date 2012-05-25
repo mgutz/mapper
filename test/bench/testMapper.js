@@ -22,7 +22,7 @@ function testMapper(cb) {
           cb(err);
         });
       } else {
-        UserDao.find({}, {limit: 25, only: ['userName', 'firstName', 'lastName']}, function(err, found) {
+        UserDao.find({}, {limit: 50, only: ['userName', 'firstName', 'lastName']}, function(err, found) {
           //if (iteration === 3)  console.log(found);
           cb(err);
         });
