@@ -26,3 +26,6 @@ bench: setup
 bench2: setup
 	time node test/bench/testMapperDao.js
 	time node test/bench/testMongo.js
+
+bench3:
+	time node test/bench/testMemcached.js

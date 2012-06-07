@@ -36,6 +36,7 @@ function testLibMysql(cb) {
         },
 
         function(err) {
+          console.log("DONE");
           if (err) console.error(err);
           cb(err);
         }
