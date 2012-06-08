@@ -3,7 +3,6 @@
 Mapper makes 80% of data access easy and provides unobtrusive access
 to SQL for the 20% complicated, speed-critical tasks.
 
-
 ## Motivation
 
 Current node.js ORMs try to add business logic to models with statics,
@@ -14,6 +13,8 @@ as development move towards single page apps, data services and shared code.
 
 Speed and simplicity.
 
+
+See [mapper-obtvse example project](https://github.com/mgutz/mapper-obtvse.git)
 
 ## Install
 

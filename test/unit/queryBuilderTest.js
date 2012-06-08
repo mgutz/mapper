@@ -587,4 +587,53 @@ describe("Update", function() {
 
 }); // end UPDATE
 
+
+describe('raw sql', function() {
+  it('should do raw sql', function() {
+    assert.equal(
+      qb.sql('SELECT 1 FROM foo').toSql(),
+      'SELECT 1 FROM foo'
+    );
+  });
+
+
+  it('should concatenate multiple args', function() {
+    assert.equal(
+      qb.sql(
+        'SELECT 1',
+        'FROM foo'
+      ).toSql(),
+      'SELECT 1 FROM foo'
+    );
+
+  });
+
+  it('should concatenate multiple args with values', function() {
+    assert.equal(
+      qb.sql(
+        'SELECT 1',
+        'FROM foo',
+        'WHERE id = ?',
+        [1]
+      ).toSql(),
+      'SELECT 1 FROM foo WHERE id = 1'
+    );
+
+  });
+
+  it('should concatenate multiple args with values', function() {
+    assert.equal(
+      qb.sql(
+        'SELECT 1 FROM foo WHERE id = ?',
+        [1]
+      ).toSql(),
+      'SELECT 1 FROM foo WHERE id = 1'
+    );
+
+  });
+
+
+});
+
+
 }); // end QueryBuilder
