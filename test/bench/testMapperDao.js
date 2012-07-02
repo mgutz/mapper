@@ -4,7 +4,7 @@ var async = require("async")
 
 Mapper.connect(config);
 
-var UserDao = Mapper.map("users");
+var UserDao = Mapper.map("Users");
 
 
 function testMapper(cb) {

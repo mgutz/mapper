@@ -15,13 +15,13 @@ function testMysql(cb) {
     function (cb) {
       iteration++;
       if (iteration % 2 === 0) {
-        client.query("insert into users(userName, firstName, lastName) values('mysql', 'is', 'slow');", function(err, result) {
-          if (iteration === 2) console.log(result);
+        client.query("insert into Users(userName, firstName, lastName) values('mysql', 'is', 'slow');", function(err, result) {
+          //if (iteration === 2) console.log(result);
           cb(err);
         });
       } else {
-        client.query("select userName, firstName, lastName from users limit 50;", function(err, rows, fields) {
-          if (iteration === 3) console.log(rows);
+        client.query("select userName, firstName, lastName from Users limit 50;", function(err, rows, fields) {
+          //if (iteration === 3) console.log(rows);
           cb(err);
         });
       }
