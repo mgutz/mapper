@@ -17,13 +17,13 @@
     "lodash": "~0.3.0"
   },
   "devDependencies": {
-    "mocha": "~1.0.1",
+    "mocha": "~1.2.2",
     "chai": "~0.5.3",
     "underscore.string": "*"
   },
   "main": "index",
   "scripts": { "test": "make test" },
-  "engines": { "node": "~0.6" },
+  "engines": { "node": ">= 0.6" },
   "licenses" : [{
       "type" : "MIT"
     , "url" : "http://github.com/didit-tech/FastLegS/raw/master/LICENSE"
