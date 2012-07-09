@@ -111,6 +111,15 @@ describe("Dao", function() {
         });
     });
 
+    it('find a post using raw sql', function(done) {
+      Post
+        .sql('select title', 'from posts where id = ?', [posts[0].id])
+        .one(function(err, row) {
+          assert.equal(posts[0].title, row.title);
+          done();
+        });
+    });
+
     it('finds a post using string and only return certain fields', function(done) {
       Post
         .select('id')
