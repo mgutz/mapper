@@ -5,7 +5,7 @@ var prompt = require("./prompt")
 
 var create = {
   bench:
-    "CREATE TABLE users( \
+    "CREATE TABLE Users( \
        id int not null auto_increment primary key, \
        userName varchar(255), \
        firstName varchar(255), \
@@ -14,7 +14,7 @@ var create = {
      ) Engine=InnoDB DEFAULT CHARSET=utf8",
 
   posts:
-    "CREATE TABLE posts (\
+    "CREATE TABLE Posts (\
       id integer NOT NULL,\
       title character varying(255) NOT NULL,\
       blurb character varying(255),\
@@ -25,24 +25,24 @@ var create = {
       CONSTRAINT posts_pkey PRIMARY KEY (id))",
 
   tags:
-    "CREATE TABLE tags (\
+    "CREATE TABLE Tags (\
       id integer NOT NULL,\
       name varchar(64))",
 
   postsTags:
-    "CREATE TABLE postsTags (\
+    "CREATE TABLE PostsTags (\
       id integer NOT NULL,\
       postId int not null,\
       tagId int not null)",
 
   moreDetails:
-    "CREATE TABLE postMoreDetails (\
+    "CREATE TABLE PostMoreDetails (\
       id integer NOT NULL,\
       postId int not null,\
       extra varchar(132))",
 
   comments:
-    "CREATE TABLE comments (\
+    "CREATE TABLE Comments (\
       id integer NOT NULL,\
       postId integer NOT NULL,\
       comment text NOT NULL,\
@@ -51,7 +51,7 @@ var create = {
 
   commentsPostIdIndex:
     "CREATE INDEX comments_post_id \
-      ON comments(postId)"
+      ON Comments(postId)"
 };
 
 console.log("\nMapper. Please enter your MySQL credentials " +

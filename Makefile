@@ -18,13 +18,6 @@ test-mapper:
 
 
 bench: setup
-	time node test/bench/testMapperDao.js
 	time node test/bench/testMysql.js
-	time node test/bench/testLibMysql.js
-#
-bench2: setup
 	time node test/bench/testMapperDao.js
-	time node test/bench/testMongo.js
-
-bench3:
-	time node test/bench/testMemcached.js
+	time node test/bench/testLibMysql.js

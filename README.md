@@ -11,9 +11,6 @@ As an example, why have validations in the ORM when you could do validations
 in a separate module and share that between client and server? Simpler is better
 as development move towards single page apps, data services and shared code.
 
-Speed and simplicity.
-
-
 See [mapper-obtvse example project](https://github.com/mgutz/mapper-obtvse.git)
 
 ## Install
@@ -21,6 +18,11 @@ See [mapper-obtvse example project](https://github.com/mgutz/mapper-obtvse.git)
 To use mapper
 
     npm install mapper
+
+
+NOTE: There are currently two mapper implementations. The legacy
+as used in `test/integration/legacy.js` which will be obseleted.
+The current implementeation is used in `test/integration/integrationTest.js`.
 
 
 ## Quickstart

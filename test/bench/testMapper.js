@@ -5,7 +5,7 @@ var async = require("async")
 Mapper.connect(config);
 
 var UserDao = Mapper.Base.extend({
-  tableName: "users"
+  tableName: "Users"
 });
 
 
