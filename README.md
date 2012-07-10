@@ -95,6 +95,33 @@ OR, if you prefer SQL
     });
 
 
+## SQL goodness
+
+Executing multiple statements in a series
+
+    Post.execSeries(
+        "SELECT * FROM posts WHERE author = ?", [1],
+
+        // SQL may be separated by `,`
+        "SELECT * ",
+        "FROM comments WHERE author = ?", [1],
+
+        function(err, results) {
+            // posts are in results[0][0..n]
+            // comments are in results[1][0..n]
+        }
+    );
+
+
+Executing multiple statements in parallel
+
+    Post.execParallel(
+        "SELECT * FROM posts WHERE author = ?", [1],
+        "SELECT * FROM comments WHERE author = ?", [1],
+        function(err, results) {
+        }
+    );
+
 ## Benchmarks
 
 Time for 100,000 iterations alternating between insert and select. See `test/bench`

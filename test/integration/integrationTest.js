@@ -120,6 +120,37 @@ describe("Dao", function() {
         });
     });
 
+    it('execute multiple queries in a series', function(done) {
+      Post
+        .execSeries(
+          'select title', 'from posts where id = ?', [posts[0].id],
+          'select title from posts where id = ?', [posts[1].id],
+          function(err, results) {
+            assert.equal(posts[0].title, results[0][0].title);
+            assert.equal(posts[1].title, results[1][0].title);
+            done();
+          }
+        )
+    });
+
+    it('execute multiple queries in a series', function(done) {
+      Post
+        .execParallel(
+          'select title', 'from posts where id = ?', [posts[0].id],
+          'select title from posts where id = ?', [posts[1].id],
+          function(err, results) {
+            assert.ok(results.length == 2);
+            var title0 = results[0][0].title;
+            var title1 = results[1][0].title;
+            assert.ok([title0, title1].indexOf(posts[0].title) >= 0);
+            assert.ok([title0, title1].indexOf(posts[1].title) >= 0);
+            done();
+          }
+        )
+    });
+
+
+
     it('finds a post using string and only return certain fields', function(done) {
       Post
         .select('id')

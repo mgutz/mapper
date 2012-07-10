@@ -1,8 +1,8 @@
 {
   "name": "mapper",
-  "version": "0.2.1",
-  "description": "Lightweight, blazing fast ORM on top of mysql-libmysqlclient.",
-  "tags" : ["orm", "mysql", "mysql-libmysqlclient"],
+  "version": "0.2.2-pre",
+  "description": "Lightweight, blazing fast ODM on top of mysql-libmysqlclient.",
+  "tags" : ["odm", "mysql", "mysql-libmysqlclient"],
   "contributors": [
     { "name": "Didit Tech <development@didit.com>" }
   ],
@@ -19,7 +19,7 @@
   "devDependencies": {
     "mocha": "~1.2.2",
     "chai": "~0.5.3",
-    "underscore.string": "*"
+    "underscore.string": ">= 2.1.1"
   },
   "main": "index",
   "scripts": { "test": "make test" },
