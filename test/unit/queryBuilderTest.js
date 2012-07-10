@@ -77,7 +77,7 @@ describe("Buffer Operations", function() {
   });
 
   it('should be able to peek at the sql', function() {
-    assert.equal(qb.select().peekSql(), "SELECT * FROM `model_name` ;");
+    assert.equal(qb.select().peekSql(), "SELECT * FROM `model_name`;");
   });
 
 }); // Buffer operationrs
@@ -87,7 +87,7 @@ describe("Delete", function() {
   it('deletes all rows by default', function() {
     assert.equal(
       qb.delete().toSql(),
-      "DELETE FROM `model_name` ;"
+      "DELETE FROM `model_name`;"
     );
   });
 
@@ -102,7 +102,7 @@ describe("Delete", function() {
     assert.equal(
       qb.delete().where({name: 'foo'}).toSql(),
       "DELETE FROM `model_name` " +
-      "WHERE name = 'foo' ;"
+      "WHERE name = 'foo';"
     );
   });
 
@@ -115,7 +115,7 @@ describe("Delete", function() {
 
       "DELETE FROM `model_name` " +
       "WHERE name = 'foo' " +
-      "AND email = 'bar@bah.com' ;"
+      "AND email = 'bar@bah.com';"
     );
   });
 
@@ -129,7 +129,7 @@ describe("Delete", function() {
 
       "DELETE FROM `model_name` " +
       "WHERE name = 'foo' " +
-      "AND email = 'bar@bah.com' ;"
+      "AND email = 'bar@bah.com';"
     );
   });
 
@@ -143,7 +143,7 @@ describe("Delete", function() {
 
       "DELETE FROM `model_name` " +
       "WHERE name = 'foo' " +
-      "AND email = 'bar@bah.com' ;"
+      "AND email = 'bar@bah.com';"
     );
   });
 
@@ -157,7 +157,7 @@ describe("Insert", function() {
     assert.equal(
       qb.insert(obj).toSql(),
       "INSERT INTO `model_name`(index, name) " +
-      "VALUES ('1234', 'Joseph') ;"
+      "VALUES ('1234', 'Joseph');"
     );
   });
 
@@ -167,7 +167,7 @@ describe("Insert", function() {
     assert.equal(
       qb.insert(obj).toSql(),
       "INSERT INTO `model_name`(index, name) " +
-      "VALUES ('1234', 'Joseph'), ('2222', 'Jane') ;"
+      "VALUES ('1234', 'Joseph'), ('2222', 'Jane');"
     );
   });
 
@@ -177,7 +177,7 @@ describe("Insert", function() {
     assert.equal(
       qb.insert(obj).toSql(),
       "INSERT INTO `model_name`(index) " +
-      "VALUES ('1234') ;"
+      "VALUES ('1234');"
     );
   });
 
@@ -194,7 +194,7 @@ describe("Insert", function() {
     assert.equal(
       qb.insert("index, name", ['1234', 'Joseph']).toSql(),
       "INSERT INTO `model_name`(index, name) " +
-      "VALUES ('1234','Joseph') ;"
+      "VALUES ('1234','Joseph');"
     );
   });
 
@@ -205,7 +205,7 @@ describe("Select", function() {
   it('single field', function() {
     assert.equal(
       qb.where("index = ?", ['2345']).toSql(),
-      "SELECT * FROM `model_name` WHERE index = '2345' ;"
+      "SELECT * FROM `model_name` WHERE index = '2345';"
     );
   });
 
@@ -220,7 +220,7 @@ describe("Select", function() {
   it('single field using id helper', function() {
     assert.equal(
       qb.id('2345').toSql(),
-      "SELECT * FROM `model_name` WHERE index = '2345' ;"
+      "SELECT * FROM `model_name` WHERE index = '2345';"
     );
   });
 
@@ -228,7 +228,7 @@ describe("Select", function() {
   it('multiple fields', function() {
     assert.equal(
       qb.where("name = ? AND index IN (?) AND name IS ?", ['foo', ['134', '678'], null]).toSql(),
-      "SELECT * FROM `model_name` WHERE name = 'foo' AND index IN ('134','678') AND name IS NULL ;"
+      "SELECT * FROM `model_name` WHERE name = 'foo' AND index IN ('134','678') AND name IS NULL;"
     );
   });
 
@@ -237,7 +237,7 @@ describe("Select", function() {
     assert.equal(
       qb.where({name: 'awesome sauce'}).toSql(),
       "SELECT * FROM `model_name` " +
-      "WHERE name = 'awesome sauce' ;"
+      "WHERE name = 'awesome sauce';"
     );
   });
 
@@ -248,7 +248,7 @@ describe("Select", function() {
         .toSql(),
       "SELECT * FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
-      "AND email = 'joepancakes@email.com' ;"
+      "AND email = 'joepancakes@email.com';"
     );
   });
 
@@ -263,7 +263,7 @@ describe("Select", function() {
 
       "SELECT index, email FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
-      "AND email = 'joepancakes@email.com' ;"
+      "AND email = 'joepancakes@email.com';"
     );
   });
 
@@ -278,7 +278,7 @@ describe("Select", function() {
 
       "SELECT index,email FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
-      "AND email = 'joepancakes@email.com' ;"
+      "AND email = 'joepancakes@email.com';"
     );
   });
 
@@ -293,7 +293,7 @@ describe("Select", function() {
 
       "SELECT index,email FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
-      "AND email = 'joepancakes@email.com' ;"
+      "AND email = 'joepancakes@email.com';"
     );
   });
 
@@ -309,7 +309,7 @@ describe("Select", function() {
 
       "SELECT * FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
-      "AND email = 'joepancakes@email.com' ;"
+      "AND email = 'joepancakes@email.com';"
     );
   });
 
@@ -327,7 +327,7 @@ describe("Select", function() {
       "SELECT index, email FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
       "AND email = 'joepancakes@email.com' " +
-      "LIMIT 25 ;"
+      "LIMIT 25;"
     );
   });
 
@@ -344,7 +344,7 @@ describe("Select", function() {
       "SELECT index, email FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
       "AND email = 'joepancakes@email.com' " +
-      "OFFSET 25 ;"
+      "OFFSET 25;"
     );
   });
 
@@ -363,7 +363,7 @@ describe("Select", function() {
       "WHERE name = 'awesome sauce' " +
       "AND email = 'joepancakes@email.com' " +
       "LIMIT 10 " +
-      "OFFSET 25 ;"
+      "OFFSET 25;"
     );
   });
 
@@ -383,7 +383,7 @@ describe("Select", function() {
       "WHERE name = 'awesome sauce' " +
       "AND email = 'joepancakes@email.com' " +
       "ORDER BY field " +
-      "LIMIT 50 ;"
+      "LIMIT 50;"
     );
   });
 
@@ -404,7 +404,7 @@ describe("Select", function() {
       "AND email = 'joepancakes@email.com' " +
       "ORDER BY field " +
       "LIMIT 50 " +
-      "OFFSET 20 ;"
+      "OFFSET 20;"
     );
   });
 
@@ -421,7 +421,7 @@ describe("Select", function() {
       "SELECT index, email FROM `model_name` " +
       "WHERE name = 'awesome sauce' " +
       "AND email = 'joepancakes@email.com' " +
-      "ORDER BY field DESC,field2 ;"
+      "ORDER BY field DESC,field2;"
    );
   });
 
@@ -440,7 +440,7 @@ describe("Select", function() {
       "WHERE name <> 'awesome sauce' " +
       "AND name in ('one','two') " +
       "AND age not in (1,3) " +
-      "AND age = 1 " +
+      "AND age = 1" +
       ";"
    );
   });
@@ -455,7 +455,7 @@ describe("Select", function() {
         .toSql(),
 
       "SELECT * FROM `model_name` " +
-      "WHERE name = 'foo' ;"
+      "WHERE name = 'foo';"
     );
   });
 
@@ -480,7 +480,7 @@ describe("Select", function() {
     assert.equal(
       qb.select('index AS a').where("index = ?", ['2345']).toSql(),
       "SELECT index AS a FROM `model_name` " +
-      "WHERE index = '2345' ;"
+      "WHERE index = '2345';"
     )
   });
 
@@ -488,7 +488,7 @@ describe("Select", function() {
     assert.equal(
       qb.where({'name': null}).toSql(),
       "SELECT * FROM `model_name` " +
-      "WHERE name IS NULL ;"
+      "WHERE name IS NULL;"
     );
   });
 
@@ -511,7 +511,7 @@ describe("Update", function() {
       qb.update().set(obj).where({'age >': 15 }).toSql(),
       "UPDATE `model_name` " +
       "SET index = '1234', name = 'Joseph' " +
-      "WHERE age > 15 ;"
+      "WHERE age > 15;"
     );
   }),
 
@@ -523,7 +523,7 @@ describe("Update", function() {
       "UPDATE A " +
       "SET index = '1234', name = 'Joseph' " +
       "FROM table A "+
-      "WHERE age > 15 ;"
+      "WHERE age > 15;"
     );
   }),
 
@@ -539,7 +539,7 @@ describe("Update", function() {
       qb.update().set(obj).where({name: 'joe'}).toSql(),
       "UPDATE `model_name` " +
       "SET age = 8, name = 'Bob', email = 'bob@email.com' " +
-      "WHERE name = 'joe' ;"
+      "WHERE name = 'joe';"
     );
   });
 
@@ -568,7 +568,7 @@ describe("Update", function() {
     assert.equal(
       qb.update().set(obj).toSql(),
       "UPDATE `model_name` " +
-      "SET age = 8, name = 'Bob', email = 'bob@email.com' ;"
+      "SET age = 8, name = 'Bob', email = 'bob@email.com';"
     );
   });
 
