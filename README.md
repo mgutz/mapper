@@ -127,9 +127,23 @@ Executing multiple statements in parallel
 Time for 100,000 iterations alternating between insert and select. See `test/bench`
 or run `make bench`.
 
-    node-mysql-libmysqlclient   0m24.272s
-    mapper                      0m33.462s
-    node-mysql                  0m49.919s
+    time node test/bench/testMysql.js (mysql 2.0.0-alpha3)
+
+    real        1m27.239s
+    user        0m58.506s
+    sys         0m3.288s
+
+    time node test/bench/testMapperDao.js
+
+    real        0m30.701s
+    user        0m11.346s
+    sys         0m4.403s
+
+    time node test/bench/testLibMysql.js
+
+    real        0m26.044s
+    user        0m8.207s
+    sys         0m3.784s
 
 The takeaway is `mysql-libmysqlclient` is a much faster driver than the
 widely used `mysql` driver. Mapper, which is based on `mysql-libmysqlclient` adds
