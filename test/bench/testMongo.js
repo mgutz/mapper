@@ -24,14 +24,14 @@ function testLibMysql(cb) {
               firstName: 'is',
               lastName: 'fast'
             }, function(err, result) {
-              if (iteration === 2) console.log(result);
+              //if (iteration === 2) console.log(result);
               cb(err);
             })
           } else {
             var cursor = collection.find({}, ['userName', 'firstName', 'lastName']);
             cursor.limit(50);
             cursor.toArray(function(err, result) {
-              if (iteration === 3) console.log(result);
+              //if (iteration === 3) console.log(result);
               cb(err);
             });
           }

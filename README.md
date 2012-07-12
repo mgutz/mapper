@@ -145,12 +145,17 @@ or run `make bench`.
     user        0m8.207s
     sys         0m3.784s
 
+    time node test/bench/testMongo.js (just for fun)
+
+    real        0m41.771s
+    user        0m30.830s
+    sys         0m2.910s
+
 The takeaway is `mysql-libmysqlclient` is a much faster driver than the
 widely used `mysql` driver. Mapper, which is based on `mysql-libmysqlclient` adds
 overhead yet outperforms the raw `mysql` driver.
 
-Most test runs show `mapper` performing around 30% better than `mysql` driver.
-
+Even more surprising is Mapper is faster than MongoDB using the official MongoDB driver for node.js.
 
 ## Implementation Best Practice
 
