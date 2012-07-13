@@ -60,6 +60,14 @@ CRUD
         assert.equal(result.affectedRows, 1);
     });
 
+    Post
+      .update()
+      .where({ id: insertId })
+      .set({ title: 'New Title' })
+      .exec(function (err, result) {
+        // ...
+      });
+
     Post.delete().where({ title: 'New Title' }).exec(function(err, result) {
         assert.equal(result.affectedRows, 1);
     });
