@@ -30,8 +30,11 @@ The current implementeation is used in `test/integration/integrationTest.js`.
 Conect to Database
 
     var Mapper = require('mapper');
-    var conn = { user: 'dont', password: 'blink', database: 'now' };
-    Mapper.connect(conn);
+    var conn = { user: 'grace', password: 'secret', database: 'app_dev' };
+
+    // set verbose flag to trace SQL
+    // set strict to be warned of invalid columns in JSON objects
+    Mapper.connect(conn, {verbose: true, strict: false});
 
 Define Data Access Objects
 
@@ -48,26 +51,26 @@ CRUD
 
     var insertId;
 
+    // insert a new post
     Post.insert({ title: 'First Post' }).exec(function(err, result) {
         insertId = result.insertId;
     });
 
+    // select inserted post
     Post.where({ id: insertId }).one(function(err, post) {
         assert.equal(post.title, 'First Post,');
     });
 
-    Post.set({ title: 'New Title' }).exec(function(err, result) {
-        assert.equal(result.affectedRows, 1);
-    });
-
+    // update inserted post
     Post
-      .update()
-      .where({ id: insertId })
+      .update()                         // optional since set() is used
       .set({ title: 'New Title' })
+      .where({ id: insertId })
       .exec(function (err, result) {
-        // ...
+        assert.equal(result.affectedRows, 1);
       });
 
+    // delete all posts with a specific title
     Post.delete().where({ title: 'New Title' }).exec(function(err, result) {
         assert.equal(result.affectedRows, 1);
     });
