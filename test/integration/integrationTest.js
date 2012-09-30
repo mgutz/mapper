@@ -113,7 +113,7 @@ describe("Dao", function() {
 
     it('find a post using raw sql', function(done) {
       Post
-        .sql('select title', 'from posts where id = ?', [posts[0].id])
+        .sql('select title', 'from Posts where id = ?', [posts[0].id])
         .one(function(err, row) {
           assert.equal(posts[0].title, row.title);
           done();
@@ -123,8 +123,8 @@ describe("Dao", function() {
     it('execute multiple queries in a series', function(done) {
       Post
         .execSeries(
-          'select title', 'from posts where id = ?', [posts[0].id],
-          'select title from posts where id = ?', [posts[1].id],
+          'select title', 'from Posts where id = ?', [posts[0].id],
+          'select title from Posts where id = ?', [posts[1].id],
           function(err, results) {
             assert.equal(posts[0].title, results[0][0].title);
             assert.equal(posts[1].title, results[1][0].title);
@@ -133,11 +133,11 @@ describe("Dao", function() {
         )
     });
 
-    it('execute multiple queries in a series', function(done) {
+    it('execute multiple queries in a parallel', function(done) {
       Post
         .execParallel(
-          'select title', 'from posts where id = ?', [posts[0].id],
-          'select title from posts where id = ?', [posts[1].id],
+          'select title', 'from Posts where id = ?', [posts[0].id],
+          'select title from Posts where id = ?', [posts[1].id],
           function(err, results) {
             assert.ok(results.length == 2);
             var title0 = results[0][0].title;

@@ -16,6 +16,8 @@ See [mapper-obtvse example project](https://github.com/mgutz/mapper-obtvse.git)
 ## Install
 
 To use mapper
+    # optional, on ubuntu
+    sudo apt-get install libmysqlclient-dev
 
     npm install mapper
 
