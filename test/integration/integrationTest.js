@@ -449,7 +449,7 @@ describe("Dao", function() {
       });
     });
 
-    it(' error on bad selector', function(done) {
+    it('error on bad selector', function(done) {
       function test() {
         Comment.delete().where({ 'bad_field': 3 }).exec();
       }
