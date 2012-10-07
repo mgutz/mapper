@@ -112,7 +112,7 @@ OR, if you prefer SQL
 
 Executing multiple statements in a series
 
-    Post.execSeries(
+    Mapper.client.execSeries(
         "SELECT * FROM posts WHERE author = ?", [1],
 
         // SQL may be separated by `,`
@@ -128,7 +128,7 @@ Executing multiple statements in a series
 
 Executing multiple statements in parallel
 
-    Post.execParallel(
+    Mapper.client.execParallel(
         "SELECT * FROM posts WHERE author = ?", [1],
         "SELECT * FROM comments WHERE author = ?", [1],
         function(err, results) {

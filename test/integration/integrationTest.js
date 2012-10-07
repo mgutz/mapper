@@ -121,7 +121,7 @@ describe("Dao", function() {
     });
 
     it('execute multiple queries in a series', function(done) {
-      Post
+      Mapper.client
         .execSeries(
           'select title', 'from Posts where id = ?', [posts[0].id],
           'select title from Posts where id = ?', [posts[1].id],
@@ -134,7 +134,7 @@ describe("Dao", function() {
     });
 
     it('execute multiple queries in a parallel', function(done) {
-      Post
+      Mapper.client
         .execParallel(
           'select title', 'from Posts where id = ?', [posts[0].id],
           'select title from Posts where id = ?', [posts[1].id],
