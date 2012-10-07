@@ -133,6 +133,20 @@ describe("Dao", function() {
         )
     });
 
+    it('execute multiple queries in a series without args (requires semicolons)', function(done) {
+      Mapper.client
+        .execSeries(
+          'select title', 'from Posts where id = ' + posts[0].id + ';',
+          'select title from Posts where id = ' + posts[1].id + ';',
+          function(err, results) {
+            assert.equal(posts[0].title, results[0][0].title);
+            assert.equal(posts[1].title, results[1][0].title);
+            done();
+          }
+        )
+    });
+
+
     it('execute multiple queries in a parallel', function(done) {
       Mapper.client
         .execParallel(
@@ -148,6 +162,20 @@ describe("Dao", function() {
           }
         )
     });
+
+    it('execute multiple queries in parallel without args (requires semicolons)', function(done) {
+      Mapper.client
+        .execParallel(
+          'select title', 'from Posts where id = ' + posts[0].id + ';',
+          'select title from Posts where id = ' + posts[1].id + ';',
+          function(err, results) {
+            assert.equal(posts[0].title, results[0][0].title);
+            assert.equal(posts[1].title, results[1][0].title);
+            done();
+          }
+        )
+    });
+
 
 
 
