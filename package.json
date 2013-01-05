@@ -17,7 +17,7 @@
     "lodash": "~0.7.0"
   },
   "devDependencies": {
-    "mysql": "2.0.0-alpha3",
+    "mysql": "2.0.0-alpha5",
     "mocha": "~1.2.2",
     "chai": "~0.5.3",
     "underscore.string": ">= 2.1.1"
