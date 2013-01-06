@@ -22,11 +22,6 @@ To use mapper
     npm install mapper
 
 
-NOTE: There are currently two mapper implementations. The legacy
-as used in `test/integration/legacy.js` which will be obseleted.
-The current implementeation is used in `test/integration/integrationTest.js`.
-
-
 ## Quickstart
 
 Conect to Database

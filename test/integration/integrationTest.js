@@ -176,9 +176,6 @@ describe("Dao", function() {
         )
     });
 
-
-
-
     it('finds a post using string and only return certain fields', function(done) {
       Post
         .select('id')

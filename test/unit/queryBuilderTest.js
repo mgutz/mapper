@@ -26,7 +26,7 @@ var schema = {
 schema.columns = _(schema._fields).pluck('column_name');
 schema.escapedTableName = '`'+schema.tableName+'`';
 
-// whitespace doesn't matter to sql but it's esier to write unit test
+// whitespace doesn't matter to sql but it's easier to write unit test
 // if spaces are normalized
 var oldEqual = assert.equal;
 assert.equal = function(actual, expected, message) {
@@ -34,7 +34,7 @@ assert.equal = function(actual, expected, message) {
     actual = str.clean(actual);
   }
   oldEqual.apply(assert, Array.prototype.slice.call(arguments));
-}
+};
 
 var qb = new QueryBuilder({schema: schema});
 var strictQb = new QueryBuilder({schema: schema, strict: true});
