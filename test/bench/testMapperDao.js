@@ -1,6 +1,8 @@
 var async = require("async")
   , config = require("../../.mapper.json")
-  , Mapper = require("../..");
+  , Mapper = require("../..")
+  , verbose = false
+  ;
 
 Mapper.connect(config);
 
@@ -19,26 +21,26 @@ function testMapper(cb) {
         UserDao
           .insert({userName: "mapper", firstName: "is", lastName: "fast"})
           .exec(function(err, result) {
-            //if (iteration === 2)  console.log(result);
+            if (verbose && iteration === 2)  console.log(result);
             insertId = result.insertId;
             cb(err);
           });
       } else {
-        UserDao.select('userName', 'firstName', 'lastName').limit(50).all(cb);
-          // .all(function(err, found) {
-          //   if (iteration === 3)  console.log(found);
-          //   cb(err);
-          // });
+        UserDao
+          .select('userName', 'firstName', 'lastName')
+          .limit(50)
+          .all(function(err, found) {
+            if (verbose && iteration === 3)  console.log(found);
+            cb(err);
+          });
       }
     },
 
-    function(err) {
-      if (err) console.error(err);
-      cb(err);
-    }
+    cb
   );
 }
 
 testMapper(function(err) {
+  if (err) console.error(err);
   process.exit();
 });

@@ -54,10 +54,19 @@ var moreDetails = [
 ];
 
 
+var keywords = [
+  { id: 1, text: 'select', order: 1},
+  { id: 2, text: 'delete', order: 2},
+  { id: 3, text: 'insert', order: 3},
+  { id: 4, text: 'update', order: 4},
+];
+
+
 var Comment = Mapper.map("Comments")
   , Post = Mapper.map("Posts")
   , PostTag = Mapper.map("PostsTags")
   , MoreDetail = Mapper.map("PostMoreDetails")
+  , Keyword = Mapper.map("Keywords")
   , Tag = Mapper.map("Tags");
 
 
@@ -88,19 +97,50 @@ describe("Dao", function() {
       function(cb) { Comment.truncate(cb); },
       function(cb) { Tag.truncate(cb); },
       function(cb) { Post.truncate(cb); },
+      function(cb) { Keyword.truncate(cb); },
 
       function(cb) { Post.insert(posts).exec(cb); },
       function(cb) { Comment.insert(comments).exec(cb); },
       function(cb) { Tag.insert(tags).exec(cb); },
       function(cb) { MoreDetail.insert(moreDetails).exec(cb); },
-      function(cb) { PostTag.insert(postsTags).exec(cb); }
+      function(cb) { PostTag.insert(postsTags).exec(cb); },
+      function(cb) { Keyword.insert(keywords).exec(cb); }
     ];
 
     async.series(commands, done);
   });
 
 
+  describe("Insert", function() {
+    it('using columns named after keywords', function(done) {
+      Keyword
+        .insert({text: 'create', order: 9000})
+        .exec(function(err, result) {
+          assert.ifError(err);
+          Keyword.findById(result.insertId, function(err, found) {
+            assert.ifError(err);
+            assert.equal('create', found.text);
+            assert.equal(9000, found.order);
+            done();
+          });
+        });
+    })
+  });
+
+
   describe("Select", function() {
+
+    it('find columns named after keywords', function(done) {
+      Keyword
+        .select('text', 'order')
+        .where({text: 'select'})
+        .all(function(err, rows) {
+          assert.ifError(err);
+          assert.equal(1, rows.length);
+          assert.equal('select', rows[0].text);
+          done();
+        });
+    });
 
     it('find a post by primary key using object', function(done) {
       Post
@@ -434,10 +474,50 @@ describe("Dao", function() {
             });
         });
     });
+
+    it('columns named after keywords', function(done) {
+      Keyword
+        .set({text: 'updated'})
+        .where({text: 'update'})
+        .exec(function(err) {
+          assert.ifError(err);
+          Keyword.findById(4, function(err, found) {
+            assert.equal('updated', found.text);
+            done();
+          });
+        });
+    });
+
+    it('columns named after keywords', function(done) {
+      Keyword
+        .set({text: 'updated'})
+        .where({text: 'update'})
+        .exec(function(err) {
+          assert.ifError(err);
+          Keyword.findById(4, function(err, found) {
+            assert.equal('updated', found.text);
+            done();
+          });
+        });
+    });
   }); // end Update
 
 
   describe('Delete', function() {
+
+    it('columns named after keywords', function(done) {
+      Keyword
+        .delete()
+        .where({text: 'delete'})
+        .exec(function(err) {
+          assert.ifError(err);
+          Keyword.findById(2, function(err, found) {
+            assert.ifError(err);
+            assert.isUndefined(found);
+            done();
+          });
+        });
+    });
 
     it('comment by primary key', function(done) {
       Comment.delete().id(8).exec(function(err, results) {
@@ -483,6 +563,47 @@ describe("Dao", function() {
       done();
     });
 
+  }); // DELETE
+
+
+  describe('Sugar', function() {
+    it('should find by id', function(done) {
+      Tag.findById(1, function(err, row) {
+        assert.equal(row.name, 'funny');
+        done();
+      });
+    });
+
+    it('should delete by id', function(done) {
+      Tag.deleteById(2, function(err, result) {
+        assert.equal(result.affectedRows, 1);
+        Tag.findById(2, function(err, found) {
+          assert.isUndefined(found);
+          done();
+        })
+      });
+    });
+
+    it('should create', function(done) {
+      Tag.create({name: 'new tag'}, function(err, result) {
+        assert.isTrue(result.insertId > 4);
+        done();
+      });
+    });
+
+    it('should save', function(done) {
+      Tag.findById(3, function(err, row) {
+        assert.equal(row.name, 'javascript');
+        row.name  = 'awesomescript';
+        Tag.save(row, function(err, result) {
+          assert.equal(result.affectedRows, 1);
+          Tag.findById(3, function(err, found) {
+            assert.equal('awesomescript', found.name);
+            done();
+          });
+        });
+      });
+    });
   });
 
 }); // end Dao

@@ -6,6 +6,7 @@ var helper = require('../test_helper.js'),
   _ = require('lodash'),
   str = require('underscore.string'),
   QueryBuilder = helper.QueryBuilder,
+  utils = require('../../lib/utils'),
   Index = QueryBuilder.Index;
 
 /**
@@ -23,8 +24,7 @@ var schema = {
   ]
 };
 
-schema.columns = _(schema._fields).pluck('column_name');
-schema.escapedTableName = '`'+schema.tableName+'`';
+utils.escapeNames(schema);
 
 // whitespace doesn't matter to sql but it's easier to write unit test
 // if spaces are normalized

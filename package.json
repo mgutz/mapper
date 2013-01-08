@@ -1,32 +1,40 @@
 {
   "name": "mapper",
-  "version": "0.2.3-pre",
-  "description": "Lightweight, blazing fast ODM on top of mysql-libmysqlclient.",
-  "tags" : ["odm", "mysql", "mysql-libmysqlclient"],
-  "contributors": [
-    { "name": "Didit Tech <development@didit.com>" }
+  "version": "0.2.4-pre",
+  "description": "Lightweight, blazing fast MySQL data mapper.",
+  "tags": [
+    "odm",
+    "mysql",
+    "mysql-libmysqlclient"
   ],
   "author": {
-    "name": "Mario Gutierrez", "email": "mario@mgutz.com"
+    "name": "Mario Gutierrez",
+    "email": "mario@mgutz.com"
   },
   "homepage": "https://github.com/mgutz/mapper",
-
   "dependencies": {
     "async": "~0.1.22",
     "mysql-libmysqlclient": "~1.5.1",
-    "lodash": "~0.7.0"
+    "lodash": "~1.0.0-rc.3"
   },
   "devDependencies": {
     "mysql": "2.0.0-alpha5",
-    "mocha": "~1.2.2",
-    "chai": "~0.5.3",
-    "underscore.string": ">= 2.1.1"
+    "underscore.string": ">= 2.1.1",
+    "mocha": "~1.7.4",
+    "chai": "~1.4.2",
+    "express": "~3.0.6"
   },
   "main": "index",
-  "scripts": { "test": "make test" },
-  "engines": { "node": ">= 0.6" },
-  "licenses" : [{
-      "type" : "MIT"
-    , "url" : "http://github.com/didit-tech/FastLegS/raw/master/LICENSE"
-  }]
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">= 0.6"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/mgutz/mapper/raw/master/LICENSE"
+    }
+  ]
 }

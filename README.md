@@ -5,13 +5,8 @@ to SQL for the 20% complicated, speed-critical tasks.
 
 ## Motivation
 
-Current node.js ORMs try to add business logic to models with statics,
-virtual attributes, validations, pseudo-class inheritance. They're bloated.
-As an example, why have validations in the ORM when you could do validations
-in a separate module and share that between client and server? Simpler is better
-as development move towards single page apps, data services and shared code.
+Wanted a lightweight data mapper that is fast and likes SQL.
 
-See [mapper-obtvse example project](https://github.com/mgutz/mapper-obtvse.git)
 
 ## Install
 
@@ -21,6 +16,14 @@ To use mapper
 
     npm install mapper
 
+Run Backbone TODO Example
+
+    npm install -d
+    node example/backbone/app.js
+
+## TODO
+
+    Connection pooling - need soon
 
 ## Quickstart
 
@@ -44,19 +47,25 @@ Define Relationships
     Post.hasMany("comments", Comment, "postId");
     Comment.belongsTo("post", Post, "postId");
 
-CRUD
-
+Create
     var insertId;
 
-    // insert a new post
+    // These are equivalent, where first is more SQL like
     Post.insert({ title: 'First Post' }).exec(function(err, result) {
         insertId = result.insertId;
     });
+    Post.create({ title: 'First Post' }, function(err, result) { ... });
 
-    // select inserted post
+Retrieve
+
+    // Select inserted post
     Post.where({ id: insertId }).one(function(err, post) {
         assert.equal(post.title, 'First Post,');
     });
+
+    Post.findById(insertId, function(err, post) { ... });
+
+Update
 
     // update inserted post
     Post
@@ -67,10 +76,17 @@ CRUD
         assert.equal(result.affectedRows, 1);
       });
 
+    // if doc has id set, then saving it is simple. You should
+    // pluck the columns you want updated
+    Post.save(doc, function(err, result) { ... });
+
+Delete
+
     // delete all posts with a specific title
     Post.delete().where({ title: 'New Title' }).exec(function(err, result) {
         assert.equal(result.affectedRows, 1);
     });
+    Post.deleteById(insertId, function(err, result) {});
 
 
 Gets the first page of posts and populate comments property with
@@ -163,7 +179,8 @@ The takeaway is `mysql-libmysqlclient` is a much faster driver than the
 widely used `mysql` driver. Mapper, which is based on `mysql-libmysqlclient` adds
 overhead yet outperforms the raw `mysql` driver.
 
-Even more surprising is Mapper is faster than MongoDB using the official MongoDB driver for node.js.
+Even more surprising is Mapper is faster than MongoDB using the official MongoDB
+driver for node.js.
 
 ## Implementation Best Practice
 

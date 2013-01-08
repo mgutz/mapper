@@ -26,7 +26,7 @@ var create = {
 
   tags:
     "CREATE TABLE Tags (\
-      id integer NOT NULL,\
+      id integer NOT NULL primary key auto_increment, \
       name varchar(64))",
 
   postsTags:
@@ -51,11 +51,26 @@ var create = {
 
   commentsPostIdIndex:
     "CREATE INDEX comments_post_id \
-      ON Comments(postId)"
+      ON Comments(postId)",
+
+  todos:
+    "CREATE TABLE Todos ( \
+      id integer NOT NULL auto_increment, \
+      `text` text NOT null, \
+      `order` int, \
+      done boolean, \
+      CONSTRAINT todos_pkey PRIMARY KEY (id))",
+
+  keywords:
+    "CREATE TABLE Keywords ( \
+      id integer NOT NULL, \
+      `text` text NOT null, \
+      `order` int, \
+      CONSTRAINT todos_pkey PRIMARY KEY (id))"
 };
 
-console.log("\nMapper. Please enter your MySQL credentials " +
-            "and a database for us to create.\n");
+console.log("\nPlease enter your MySQL credentials " +
+            "to create test database.\n");
 
 async.series({
   "user": function(cb) {
@@ -93,7 +108,9 @@ async.series({
     function(cb) { client.query(create.moreDetails, cb); },
     function(cb) { client.query(create.postsTags, cb); },
     function(cb) { client.query(create.comments, cb); },
-    function(cb) { client.query(create.commentsPostIdIndex, cb); }
+    function(cb) { client.query(create.commentsPostIdIndex, cb); },
+    function(cb) { client.query(create.todos, cb); },
+    function(cb) { client.query(create.keywords, cb); }
   ], function(err, results) {
     if (err) console.error(err);
     if (!err) {
