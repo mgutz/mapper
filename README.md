@@ -11,7 +11,8 @@ Wanted a lightweight data mapper that is fast and likes SQL.
 ## Install
 
 To use mapper
-    # optional, on ubuntu
+
+    # For Ubuntu
     sudo apt-get install libmysqlclient-dev
 
     npm install mapper
@@ -48,6 +49,7 @@ Define Relationships
     Comment.belongsTo("post", Post, "postId");
 
 Create
+
     var insertId;
 
     // These are equivalent, where first is more SQL like
@@ -76,8 +78,8 @@ Update
         assert.equal(result.affectedRows, 1);
       });
 
-    // if doc has id set, then saving it is simple. You should
-    // pluck the columns you want updated
+    // if doc has id set, then save is simple. Note,
+    // pluck only the columns you want updated
     Post.save(doc, function(err, result) { ... });
 
 Delete
@@ -86,6 +88,7 @@ Delete
     Post.delete().where({ title: 'New Title' }).exec(function(err, result) {
         assert.equal(result.affectedRows, 1);
     });
+
     Post.deleteById(insertId, function(err, result) {});
 
 
@@ -124,26 +127,26 @@ OR, if you prefer SQL
 Executing multiple statements in a series
 
     Mapper.client.execSeries(
-        "SELECT * FROM posts WHERE author = ?", [1],
+      "SELECT * FROM posts WHERE author = ?", [1],
 
-        // SQL may be separated by `,`
-        "SELECT * ",
-        "FROM comments WHERE author = ?", [1],
+      // SQL may be separated by `,`
+      "SELECT * ",
+      "FROM comments WHERE author = ?", [1],
 
-        function(err, results) {
-            // posts are in results[0][0..n]
-            // comments are in results[1][0..n]
-        }
+      function(err, results) {
+        // posts are in results[0][0..n]
+        // comments are in results[1][0..n]
+      }
     );
 
 
 Executing multiple statements in parallel
 
     Mapper.client.execParallel(
-        "SELECT * FROM posts WHERE author = ?", [1],
-        "SELECT * FROM comments WHERE author = ?", [1],
-        function(err, results) {
-        }
+      "SELECT * FROM posts WHERE author = ?", [1],
+      "SELECT * FROM comments WHERE author = ?", [1],
+      function(err, results) {
+      }
     );
 
 ## Benchmarks
