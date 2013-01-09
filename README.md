@@ -9,7 +9,7 @@ Wanted a lightweight data mapper that is fast and likes SQL.
 
 ## Install
 
-To use mapper
+To use mapper in your project
 
     # For Ubuntu
     sudo apt-get install libmysqlclient-dev
@@ -18,11 +18,13 @@ To use mapper
 
 To run Backbone or AngularJS Example
 
+    git clone git://github.com/mgutz/mapper.git
+    cd mapper
     npm install -d
     make test                   # creates necessary database and config.json
     node example/app.js
 
-then browse http://localhost:3000
+then browse `http://localhost:3000`
 
 ## TODO
 
