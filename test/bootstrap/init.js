@@ -114,7 +114,7 @@ async.series({
   ], function(err, results) {
     if (err) console.error(err);
     if (!err) {
-      fs.writeFile('.mapper.json', JSON.stringify(config), function (err) {
+      fs.writeFile('config.json', JSON.stringify(config), function (err) {
         client.closeSync();
         process.exit();
       });

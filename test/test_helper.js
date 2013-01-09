@@ -1,5 +1,5 @@
 var assert = global.assert = require('chai').assert,
-  config = require('../.mapper.json'),
+  config = require('../config.json'),
   Mapper = require('..');
 
 //Mapper.connect(config, {verbose: true, strict: true});

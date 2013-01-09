@@ -3,7 +3,7 @@ SHELL := /bin/bash
 test: setup test-mapper
 
 setup:
-	@[ -e ".mapper.json" ] || node test/bootstrap/init.js
+	@[ -e "config.json" ] || node test/bootstrap/init.js
 
 test-unit:
 	@mocha -u exports -R spec test/unit/statements_test.js
@@ -29,6 +29,6 @@ bench-mongo:
 
 
 remove-config:
-	rm -f .mapper.json
+	rm -f config.json
 
 force-test: remove-config test

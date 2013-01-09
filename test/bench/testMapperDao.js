@@ -1,5 +1,5 @@
 var async = require("async")
-  , config = require("../../.mapper.json")
+  , config = require("../../config.json")
   , Mapper = require("../..")
   , verbose = false
   ;

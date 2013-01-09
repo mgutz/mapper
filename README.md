@@ -20,7 +20,7 @@ To use mapper
 Run Backbone TODO Example
 
     npm install -d
-    node example/backbone/app.js
+    node example/app.js
 
 ## TODO
 

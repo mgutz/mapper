@@ -12,8 +12,7 @@ $(function(){
     // Default attributes for a todo item.
     defaults: function() {
       return {
-        done:  false,
-        order: Todos.nextOrder()
+        done:  false
       };
     },
 
@@ -44,15 +43,9 @@ $(function(){
       return this.without.apply(this, this.done());
     },
 
-    // We keep the Todos in sequential order. This generates the next order number for new items.
-    nextOrder: function() {
-      if (!this.length) return 1;
-      return this.last().get('order') + 1;
-    },
-
     // Todos are sorted by their original insertion order.
     comparator: function(todo) {
-      return todo.get('order');
+      return todo.get('id');
     }
 
   });
@@ -192,7 +185,7 @@ $(function(){
     },
 
     // If you hit return in the main input field, and there is text to save,
-    // create new **Todo** model persisting it to *localStorage*.
+    // create new **Todo** model persisting it to server.
     createOnEnter: function(e) {
       var text = this.input.val();
       if (!text || e.keyCode != 13) return;
