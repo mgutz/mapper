@@ -13,8 +13,7 @@ test-integration:
 
 test-mapper:
 	@mocha --bail -R spec test/unit/queryBuilderTest.js
-	@mocha --bail -R spec test/integration/clientTest.js
-	@mocha --bail -R spec test/integration/integrationTest.js
+	@mocha --bail -R spec test/integration/*Test.js
 
 
 bench: setup
