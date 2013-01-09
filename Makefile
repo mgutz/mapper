@@ -12,9 +12,7 @@ test-integration:
 	@mocha -u exports -R spec test/integration/*test.js
 
 test-mapper:
-	# TODO queryBuilder works and is used by other tests, but the
-	# tests need to be updated to escape field names in expected strings
-	# @mocha --bail -R spec test/unit/queryBuilderTest.js
+	@mocha --bail -R spec test/unit/queryBuilderTest.js
 	@mocha --bail -R spec test/integration/clientTest.js
 	@mocha --bail -R spec test/integration/integrationTest.js
 
