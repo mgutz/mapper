@@ -7,7 +7,6 @@ to SQL for the 20% complicated, speed-critical tasks.
 
 Wanted a lightweight data mapper that is fast and likes SQL.
 
-
 ## Install
 
 To use mapper
@@ -17,14 +16,17 @@ To use mapper
 
     npm install mapper
 
-Run Backbone TODO Example
+To run Backbone or AngularJS Example
 
     npm install -d
+    make test                   # creates necessary database and config.json
     node example/app.js
+
+then browse http://localhost:3000
 
 ## TODO
 
-    Connection pooling - need soon
+    Connection pooling - adding SOON
 
 ## Quickstart
 

@@ -113,11 +113,7 @@ async.series([configMapper, configExpress, configRoutes], function(err) {
     process.exit();
   }
   app.listen(PORT);
-  console.log(
-    'Express started. Browse: \n' +
-    'http://127.0.0.1:' + PORT + '/backbone.html\n' +
-    'http://127.0.0.1:' + PORT + '/angular.html\n'
-  );
+  console.log('Express started. Browse http://localhost:' + PORT + '\n');
 });
 
 
