@@ -47,6 +47,23 @@ function configExpress(cb) {
  * @param cb
  */
 function configRoutes(cb) {
+
+
+  // TODO: Add helper function to DAO since there is enough information from schema
+  // to properly typecast and size strings, etc
+  function parseTodo(req, whitelist) {
+    if (!whitelist) whitelist = ['text', 'done', 'order'];
+    var todo = {};
+
+    if (req.params.id) todo.id = parseInt(req.params.id);
+    whitelist.forEach(function(field) {
+      var val = req.body[field];
+      if (val) todo[field] = val;
+    });
+    return todo;
+  }
+
+
   app.get('/', function(req, res) {
     res.redirect('/index.html');
   });
@@ -66,12 +83,7 @@ function configRoutes(cb) {
   });
 
   app.put('/api/todos/:id', function(req, res, next) {
-    var todo = {
-      id: req.params.id,
-      text: req.body.text,
-      done: req.body.done,
-      order: req.body.order
-    };
+    var todo = parseTodo(req);
 
     Todo.save(todo, function(err) {
       if (err) return next(err);
@@ -80,11 +92,7 @@ function configRoutes(cb) {
   });
 
   app.post('/api/todos', function(req, res, next) {
-    var todo = {
-      text: req.body.text,
-      done: req.body.done,
-      order: req.body.order
-    };
+    var todo = parseTodo(req);
 
     Todo.create(todo, function(err, row) {
       if (err) return next(err);
@@ -94,7 +102,9 @@ function configRoutes(cb) {
   });
 
   app.delete('/api/todos/:id', function(req, res, next) {
-    Todo.deleteById(req.params.id, function(err) {
+    var id = parseInt(req.params.id);
+
+    Todo.deleteById(id, function(err) {
       if (err) return next(err);
       res.send('');
     });

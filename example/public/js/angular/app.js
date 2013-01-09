@@ -8,27 +8,41 @@ var app = angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.dir
 //// Controllers
 
 function TodoListCtrl(Todo, $scope) {
-  $scope.todo = {};
+  $scope.text = '';
 
-  // Retrieve from server
+  // Retrieve initial todos from server
   $scope.todos = Todo.query();
 
+
   $scope.create = function() {
-    var todo = new Todo($scope.todo);
+    var todo = new Todo({text: $scope.text});
     todo.$create(function(u) {          // same as $save but more explicit
       $scope.todos.push(u);
 
       // clears input box
-      $scope.todo = {};
+      $scope.text = "";
     });
   };
 
-  $scope.update = function(model) {
-    console.log(model);
-    var todo = new Todo(model);
-    todo.$update({id: model.id}, function(u) {
-    });
+
+  $scope.updateItemDone = function(todo) {
+    // Any properties to be passed as body goes into constructor
+    var resource = new Todo({done: todo.done});
+    // Arguments for URL, in this case :id, is first arg to function
+    resource.$update({id: todo.id});
   };
+
+
+  $scope.editItem = function(todo) {
+    todo.editing = true;
+  };
+
+  $scope.updateItemText = function(todo) {
+    var resource = new Todo({text: todo.text});
+    todo.editing = false;
+    resource.$update({id: todo.id});
+  };
+
 
   $scope.remaining = function() {
     var result = 0;
@@ -36,6 +50,15 @@ function TodoListCtrl(Todo, $scope) {
       if (!todo.done) result += 1;
     });
     return result;
+  };
+
+
+  $scope.deleteItem = function(todo) {
+    var resource = new Todo();
+    // remove locally
+    $scope.todos = _.reject($scope.todos, function(t) { return t.id === todo.id; });
+    // remove from server
+    resource.$delete({id: todo.id});
   };
 
 
@@ -55,8 +78,7 @@ function TodoListCtrl(Todo, $scope) {
 
     remove.forEach(function(todo) {
       var resource  = new Todo(todo);
-      resource.$delete({id: todo.id}, function() {
-      });
+      resource.$delete({id: todo.id});
     });
   }
 }
@@ -94,6 +116,7 @@ filters.filter('isTruthy', function() {
     return !!inputValue ? text : '';
   }
 });
+
 
 //// Services
 

@@ -20,23 +20,25 @@
       <div class="content" ng-controller="TodoListCtrl">
 
         <div id="create-todo">
-          <input id="new-todo" placeholder="What needs to be done?" type="text" on-enter="create()" ng-model="todo.text"/>
+          <input id="new-todo" placeholder="What needs to be done?" type="text" on-enter="create()"
+                 ng-model="text"/>
           <span style="display:none;" class="ui-tooltip-top">Press Enter to save this task</span>
         </div>
 
         <div id="todos">
           <ul id="todo-list">
-            <li ng-repeat="todo in todos | orderBy:'id'">
+            <li class="{{todo.editing && 'editing'}}" ng-repeat="todo in todos | orderBy:'id'">
               <div class="todo {{todo.done | isTruthy:'done'}}">
-                <div class="display">
+                <div class="display" ng-dblclick="editItem(todo)" ng-hide="todo.editing">
                   <!-- why does it need ng-model and ng-checked -->
-                  <input class="check" type="checkbox" ng-model="todo.done" ng-checked="todo.done" ng-change="update(todo)" />
+                  <input class="check" type="checkbox" ng-model="todo.done" ng-checked="todo.done"
+                         ng-change="updateItemDone(todo)"/>
+
                   <div class="todo-text">{{todo.text}}</div>
-                  <span id="todo-destroy"></span>
+
+                  <span class="todo-destroy" ng-click="deleteItem(todo)"></span>
                 </div>
-                <div class="edit">
-                  <input/>
-                </div>
+                <div class="edit"><input type="text" ng-model="todo.text" class="todo-input" on-enter="updateItemText(todo)"/></div>
               </div>
             </li>
           </ul>
