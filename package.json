@@ -1,6 +1,6 @@
 {
   "name": "mapper",
-  "version": "0.2.4-pre",
+  "version": "0.2.5",
   "description": "Lightweight, blazing fast MySQL data mapper.",
   "tags": [
     "odm",
