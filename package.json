@@ -16,7 +16,7 @@
 			"name": "Ramon Snir",
 			"email": "ramon@dynamicyield.com"
 		}
-	]
+	],
 	"homepage": "https://github.com/mgutz/mapper",
 	"dependencies": {
 		"async": "~0.1.22",
@@ -45,6 +45,6 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "http://github.com/ramonsnir/mapper.git"
+		"url": "https://github.com/ramonsnir/mapper.git"
 	}
 }
