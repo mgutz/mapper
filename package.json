@@ -1,6 +1,6 @@
 {
 	"name": "mapper",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"description": "Lightweight, blazing fast MySQL data mapper.",
 	"tags": [
 		"odm",
@@ -17,7 +17,7 @@
 			"email": "ramon@dynamicyield.com"
 		}
 	],
-	"homepage": "https://github.com/mgutz/mapper",
+	"homepage": "https://github.com/ramonsnir/mapper",
 	"dependencies": {
 		"async": "~0.1.22",
 		"mysql-libmysqlclient": "~1.5.1",
@@ -40,7 +40,7 @@
 	"licenses": [
 		{
 			"type": "MIT",
-			"url": "http://github.com/mgutz/mapper/raw/master/LICENSE"
+			"url": "http://github.com/ramonsnir/mapper/raw/master/LICENSE"
 		}
 	],
 	"repository": {
