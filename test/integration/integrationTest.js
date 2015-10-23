@@ -399,7 +399,7 @@ describe("Dao", function() {
     });
 
     it('should load the parent of a belongsTo relationship', function(done) {
-      Comment.where('id = ?', [1]).load('post').one(function(err, comment) {
+      Comment.where('id = ?', [1]).load('post', function(post) {post.select('id', 'title');}).one(function(err, comment) {
         assert.equal(comment.post.title, 'Some Title 1');
         done();
       });

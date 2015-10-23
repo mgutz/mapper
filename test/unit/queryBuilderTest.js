@@ -156,7 +156,7 @@ describe("Insert", function() {
 
     assert.equal(
       qb.insert(obj).toSql(),
-      "INSERT INTO `model_name`(`index`, `name`) " +
+      "INSERT INTO `model_name`(`model_name`.`index`, `model_name`.`name`) " +
       "VALUES ('1234', 'Joseph');"
     );
   });
@@ -166,7 +166,7 @@ describe("Insert", function() {
 
     assert.equal(
       qb.insert(obj).toSql(),
-      "INSERT INTO `model_name`(`index`, `name`) " +
+      "INSERT INTO `model_name`(`model_name`.`index`, `model_name`.`name`) " +
       "VALUES ('1234', 'Joseph'), ('2222', 'Jane');"
     );
   });
@@ -176,7 +176,7 @@ describe("Insert", function() {
 
     assert.equal(
       qb.insert(obj).toSql(),
-      "INSERT INTO `model_name`(`index`) " +
+      "INSERT INTO `model_name`(`model_name`.`index`) " +
       "VALUES ('1234');"
     );
   });
@@ -276,7 +276,7 @@ describe("Select", function() {
         })
         .toSql(),
 
-      "SELECT `index`,`email` FROM `model_name` " +
+      "SELECT `model_name`.`index`,`model_name`.`email` FROM `model_name` " +
       "WHERE `name` = 'awesome sauce' " +
       "AND `email` = 'joepancakes@email.com';"
     );
@@ -291,7 +291,7 @@ describe("Select", function() {
         })
         .toSql(),
 
-      "SELECT `index`,`email` FROM `model_name` " +
+      "SELECT `model_name`.`index`,`model_name`.`email` FROM `model_name` " +
       "WHERE `name` = 'awesome sauce' " +
       "AND `email` = 'joepancakes@email.com';"
     );

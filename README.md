@@ -1,3 +1,5 @@
+# DEPRECATED. Use https://github.com/DynamicYield/mapper
+
 # Mapper
 
 Mapper makes 80% of data access easy and provides unobtrusive access
